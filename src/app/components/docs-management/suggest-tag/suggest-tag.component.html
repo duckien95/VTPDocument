@@ -8,11 +8,13 @@
                 <button (click)="removeItem($event, item)">&times;</button>
             </div>
         </ng-template>
-        <input #tagQueryInput type="text" (keyup)="searchTags($event)" [(ngModel)]="str"
+
+          <input #tagQueryInput type="text" (keyup)="searchTags($event)" [(ngModel)]="str"
                [ngModelOptions]="{standalone: true}"
                placeholder="{{!value.length ? 'Nhập tên thẻ':''}}" class="tagQueryInput"
-               [style.width.px]="value.length && (str.length > 1) ? (str.length * 10) : false"
+               [style.width.px]="value.length && (str.length > 1) ? (str.length * 10) : '50px'"
                [class.tagQueryInputExpanded]="!value.length">
+        
     </div>
     <!--<div class="tagResult" *ngIf="isOpen">-->
       <div *ngIf="isOpen" class="tagResult">

@@ -5,7 +5,7 @@
     width: 100%;
     border: solid 1px #dadce3;
     position: relative;
-    min-height: 50px;
+    min-height: 40px;
     padding: 7px;
     padding-bottom: 0;
     background: #fff;
@@ -33,11 +33,11 @@
     position: relative;
     font-size: 12px;
     padding-right: 30px;
-    overflow: hidden;
+    /*overflow: hidden;*/
     white-space: nowrap;
     text-overflow: ellipsis;
     max-width: 100%;
-    float: left;
+    /*float: left;*/
 }
 .choiseItem button {
     padding: 0;
