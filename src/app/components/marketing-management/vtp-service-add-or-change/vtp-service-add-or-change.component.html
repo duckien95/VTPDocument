@@ -1,0 +1,181 @@
+<div id="vtp-service-add-or-change"class="modal fade" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-lg">
+   <div class="modal-content">
+     <div class="modal-body">
+      <div class="row">
+         <div class="col-md-12">
+           <!-- BEGIN VALIDATION STATES-->
+           <div class="portlet light portlet-fit portlet-form bordered">
+             <div class="portlet-title ">
+               <div class="caption">
+                 <i class="icon-settings font-red"></i>
+                 <span [hidden]="vtpServiceModel.serviceId != undefined" class="caption-subject font-red sbold uppercase">Add new service</span>
+                 <span [hidden]="vtpServiceModel.serviceId == undefined" class="caption-subject font-red sbold uppercase">Change service</span>
+               </div>
+             </div>
+             <div class="portlet-body">
+               <!-- BEGIN FORM-->
+               <form class="form-horizontal" (ngSubmit)="onAddOrChange(vtpServiceAddOrChange)" autocomplete="off" #vtpServiceAddOrChange="ngForm">
+
+                 <div class="form-body">
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Parent
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7" [ngClass]="{
+                           'has-error': (serviceParent.errors && (serviceParent.dirty || serviceParent.touched))
+                           || (!formValid && serviceParent.errors), 'has-success': !serviceParent.errors}">
+                           <select class="form-control form-filter input-sm" name="parentService" [(ngModel)]="vtpServiceModel.parentId"  required #serviceParent="ngModel">
+                              <option [value]="0">Parent</option>
+                              <option *ngFor="let par of ListParentService" [value]="par._id">{{ par.name }}</option>
+                           </select>
+                           <span class="help-block" *ngIf="serviceParent.invalid && (serviceParent.dirty || serviceParent.touched)">
+                              <p class="required" *ngIf="serviceParent.errors.required">Parent is required</p>
+                           </span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Service Name
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7" [ngClass]="{
+                           'has-error': (serviceName.errors && (serviceName.dirty || serviceName.touched))
+                           || (!formValid && serviceName.errors), 'has-success': !serviceName.errors }">
+                           <input type="text" class="form-control" placeholder="BannerName" name="serviceName" [(ngModel)]="vtpServiceModel.name" required
+                           minlength="1" maxlength="1024" #serviceName="ngModel" />
+                           <span class="help-block" *ngIf="(serviceName.invalid && (serviceName.dirty  || serviceName.touched))
+                           || (!formValid && serviceName.errors)
+                           ">
+                              <p class="required" *ngIf="serviceName.errors?.required">Service name is required</p>
+                              <!-- <p class="required" *ngIf="serviceName.errors.maxlength || serviceName.errors.minlength">Service name must be between 1 and 1024 characters</p> -->
+                           </span>
+                        </div>
+                     </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">Description
+                        <span class="required"> * </span>
+                     </label>
+                     <div class="col-md-7" [ngClass]="{
+                     'has-error': (serviceDescription.errors && (serviceDescription.dirty || serviceDescription.touched))
+                     || (!formValid && serviceDescription.errors), 'has-success': !serviceDescription.errors }">
+                        <textarea type="text" class="form-control" placeholder="Description" name="description" [(ngModel)]="vtpServiceModel.description" required #serviceDescription="ngModel"></textarea>
+                        <span class="help-block" *ngIf="(serviceDescription.invalid && (serviceDescription.dirty  || serviceDescription.touched))
+                        || (!formValid && serviceDescription.errors)
+                        ">
+                           <p class="required" *ngIf="serviceDescription.errors?.required">Service description is required</p>
+                        <!-- <p class="required" *ngIf="serviceDescription.errors.maxlength || serviceDescription.errors.minlength">Service name must be between 1 and 1024 characters</p> -->
+                        </span>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">URL
+                        <span class="required"> * </span>
+                     </label>
+                     <div class="col-md-7" [ngClass]="{
+                     'has-error': (serviceUrl.errors && (serviceUrl.dirty || serviceUrl.touched))
+                     || (!formValid && serviceUrl.errors), 'has-success': !serviceUrl.errors }">
+                        <input type="text" class="form-control" placeholder="URL" name="serviceUrl" [(ngModel)]="vtpServiceModel.url"
+                        pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$"
+                        required #serviceUrl="ngModel"/>
+                        <span class="help-block" *ngIf="(serviceUrl.invalid && (serviceUrl.dirty  || serviceUrl.touched))
+                        || (!formValid && serviceUrl.errors)
+                        ">
+                           <p class="required" *ngIf="serviceUrl.errors?.required">Service URL is required</p>
+                           <p class="required" *ngIf="serviceUrl.errors?.pattern">Service URL is not valid</p>
+                           <!-- <p>{{ serviceUrl.errors | json }}</p> -->
+                        <!-- <p class="required" *ngIf="serviceDescription.errors.maxlength || serviceDescription.errors.minlength">Service name must be between 1 and 1024 characters</p> -->
+                        </span>
+                     </div>
+                  </div>
+
+                  <div class="form-group">
+                     <label class="control-label col-md-3"> Display Order
+                        <span class="required"> * </span>
+                     </label>
+                     <div class="col-md-7" [ngClass]="{
+                     'has-error': (serviceDisplayOrder.errors && (serviceDisplayOrder.dirty || serviceDisplayOrder.touched))
+                     || (!formValid && serviceDisplayOrder.errors), 'has-success': !serviceDisplayOrder.errors }">
+                        <input type="number" class="form-control" placeholder="Display Order" name="displayOrder" [(ngModel)]="vtpServiceModel.displayOrder" required #serviceDisplayOrder="ngModel"/>
+                        <span class="help-block" *ngIf="(serviceDisplayOrder.invalid && (serviceDisplayOrder.dirty  || serviceDisplayOrder.touched))
+                        || (!formValid && serviceDisplayOrder.errors)
+                        ">
+                        <p class="required" *ngIf="serviceDisplayOrder.errors?.required">Service display order is required</p>
+                        <!-- <p class="required" *ngIf="serviceDescription.errors.maxlength || serviceDescription.errors.minlength">Service name must be between 1 and 1024 characters</p> -->
+                        </span>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">Status
+                        <span class="required"> * </span>
+                     </label>
+                     <div class="col-md-7" [ngClass]="{
+                        'has-error': (serviceStatus.errors && (serviceStatus.dirty || serviceStatus.touched))
+                        || (!formValid && serviceStatus.errors), 'has-success': !serviceStatus.errors}">
+                        <select class="form-control form-filter input-sm" [(ngModel)]="vtpServiceModel.status" name="parent" #serviceStatus="ngModel" required>
+                           <!-- <option [ngValue]="0">Select status</option> -->
+                           <option *ngFor="let stt of ListServiceStatus" [ngValue]="stt.value">{{stt.text}}</option>
+                        </select>
+                        <span class="help-block" *ngIf="(serviceStatus.invalid && (serviceStatus.dirty || serviceStatus.touched))
+                        || (!formValid && serviceStatus.errors)
+                        ">
+                           <p class="required" *ngIf="serviceStatus.errors.required">Service status is required</p>
+                        </span>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">Options
+                        <span class="required"> * </span>
+                     </label>
+                     <div class="col-md-7">
+                        <div class="">
+                           <label class="checkbox-inline"><input type="checkbox" [(ngModel)]="vtpServiceModel.displayOnHome" [ngModelOptions]="{standalone: true}"  #serviceDisplayOnHome="ngModel">
+                              Display On Home
+                           </label>
+                           <label class="checkbox-inline"><input type="checkbox" [(ngModel)]="vtpServiceModel.isHighLight" [ngModelOptions]="{standalone: true}" #serviceIsHighlight="ngModel">
+                              Highlight
+                           </label>
+                           <label class="checkbox-inline"><input type="checkbox" [(ngModel)]="vtpServiceModel.isNews" [ngModelOptions]="{standalone: true}" #serviceIsNews="ngModel">
+                              News
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+
+
+
+                   <!-- <div class="form-group" >
+                       <label class="control-label col-md-3">Created Date
+                       </label>
+                       <div class="col-md-7">
+                           <div class="input-group date date-picker" data-date-format="mm/dd/yyyy" [ngClass]="{'has-success': createdDate.touched }">
+                              <input type="text" class="form-control form-filter input-sm" name="createdDate" placeholder="To" [(ngModel)]="banner.createdDate"
+                                 #createdDate="ngModel"/>
+                                 <span class="input-group-btn input-sm">
+                                   <button class="btn btn-sm default" type="button">
+                                     <i class="fa fa-calendar"></i>
+                                   </button>
+                                 </span>
+                             </div>
+                       </div>
+                   </div> -->
+                 </div>
+                 <div class="form-actions">
+                   <div class="row">
+                     <div class="col-md-offset-3 col-md-9">
+                       <button type="submit" class="btn green">Save</button>
+                       <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">Cancel</button>
+                     </div>
+                   </div>
+                 </div>
+
+               </form>
+               <!-- END FORM-->
+             </div>
+           </div>
+           <!-- END VALIDATION STATES-->
+         </div>
+      </div>
+     </div>
+   </div>
+ </div>
+</div>

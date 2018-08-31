@@ -1,0 +1,231 @@
+<div id="post-add-or-change"class="modal fade" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-lg">
+   <div class="modal-content">
+     <div class="modal-body">
+      <div class="row">
+         <div class="col-md-12">
+           <!-- BEGIN VALIDATION STATES-->
+           <div class="portlet light portlet-fit portlet-form bordered">
+             <div class="portlet-title ">
+               <div class="caption">
+                 <i class="icon-settings font-red"></i>
+                 <span [hidden]="postModel._id != undefined" class="caption-subject font-red sbold uppercase">Add new post</span>
+                 <span [hidden]="postModel._id == undefined" class="caption-subject font-red sbold uppercase">Change post</span>
+               </div>
+             </div>
+             <div class="portlet-body">
+               <!-- BEGIN FORM-->
+               <form class="form-horizontal" (ngSubmit)="onAddOrChangePost(postAddOrChange)" autocomplete="off" #postAddOrChange="ngForm">
+
+                 <div class="form-body">
+                    <div class="" *ngIf="postModel._id == undefined">
+                        <div class="form-group">
+                           <label class="control-label col-md-3">Parent Service
+                              <span class="required"> * </span>
+                           </label>
+
+                           <div class="col-md-7" [ngClass]="{'has-error': (parentService.errors && (parentService.dirty || parentService.touched))
+                           || (!formValid && parentService.errors), 'has-success': !parentService.errors }">
+                              <select class="form-control form-filter input-sm" name="parentService" [(ngModel)]="parentServiceId" (change)="onSelectParentService($event.target.value)" required #parentService="ngModel">
+                                 <option [value]="">Select parent</option>
+                                 <option *ngFor="let par of ListParentService" [value]="par._id">{{ par.name }}</option>
+                              </select>
+                              <span class="help-block" *ngIf="(parentService.invalid && (parentService.dirty || parentService.touched))
+                              || (!formValid && parentService.errors)
+                              ">
+                                 <p class="required" *ngIf="parentService.errors.required">Parent service is required</p>
+                              </span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Child Service
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7" [ngClass]="{'has-error': (childService.errors && (childService.dirty || childService.touched))
+                        || (!formValid && childService.errors), 'has-success': !childService.errors }">
+                           <select class="form-control form-filter input-sm" name="childService" [(ngModel)]="postModel.servicesId"  required #childService="ngModel">
+                              <!-- <option [value]="0">Child Service</option> -->
+                              <option *ngFor="let child of ListChildService" [value]="child._id">{{ child.name }}</option>
+                           </select>
+                           <span class="help-block" *ngIf="(childService.invalid && (childService.dirty || childService.touched))
+                           || (!formValid && childService.errors)
+                           ">
+                              <p class="required" *ngIf="childService.errors.required">Child service is required</p>
+                           </span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Title
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7" [ngClass]="{
+                           'has-error': (postTitle.errors && (postTitle.dirty || postTitle.touched))
+                           || (!formValid && postTitle.errors), 'has-success': !postTitle.errors }">
+                           <textarea type="text" class="form-control" placeholder="Title" name="postTitle" [(ngModel)]="postModel.title" required
+                           minlength="1" maxlength="1024" #postTitle="ngModel" ></textarea>
+                           <span class="help-block" *ngIf="(postTitle.invalid && (postTitle.dirty  || postTitle.touched))
+                           || (!formValid && postTitle.errors)
+                           ">
+                              <p class="required" *ngIf="postTitle.errors?.required">Post title is required</p>
+                              <p class="required" *ngIf="postTitle.errors.maxlength || postTitle.errors.minlength">Title must be between 1 and 1024 characters</p>
+                           </span>
+                        </div>
+                     </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">Content
+                        <span class="required"> * </span>
+                     </label>
+                     <div class="col-md-7" [ngClass]="{
+                     'has-error': (postContent.errors && (postContent.dirty || postContent.touched))
+                     || (!formValid && postContent.errors), 'has-success': !postContent.errors }">
+                        <textarea type="text" class="form-control" placeholder="Content" name="content" [(ngModel)]="postModel.content" required #postContent="ngModel"></textarea>
+                        <span class="help-block" *ngIf="(postContent.invalid && (postContent.dirty  || postContent.touched))
+                        || (!formValid && postContent.errors)
+                        ">
+                           <p class="required" *ngIf="postContent.errors?.required">Post content is required</p>
+                        <!-- <p class="required" *ngIf="serviceDescription.errors.maxlength || serviceDescription.errors.minlength">Service name must be between 1 and 1024 characters</p> -->
+                        </span>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">Short Description
+                        <span class="required"> * </span>
+                     </label>
+                     <div class="col-md-7" [ngClass]="{
+                     'has-error': (postShortDescription.errors && (postShortDescription.dirty || postShortDescription.touched))
+                     || (!formValid && postShortDescription.errors), 'has-success': !postShortDescription.errors }">
+                        <textarea type="text" class="form-control" placeholder="Short Description" name="shortDescription" [(ngModel)]="postModel.shortDescription" minlength="1" maxlength="1024" required #postShortDescription="ngModel"></textarea>
+                        <span class="help-block" *ngIf="(postShortDescription.invalid && (postShortDescription.dirty  || postShortDescription.touched))
+                        || (!formValid && postShortDescription.errors)
+                        ">
+                           <p class="required" *ngIf="postShortDescription.errors?.required">Short description is required</p>
+                        <p class="required" *ngIf="postShortDescription.errors.maxlength || postShortDescription.errors.minlength">Short description must be between 1 and 1024 characters</p>
+                        </span>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">Description
+                        <span class="required"> * </span>
+                     </label>
+                     <div class="col-md-7" [ngClass]="{
+                     'has-error': (postDescription.errors && (postDescription.dirty || postDescription.touched))
+                     || (!formValid && postDescription.errors), 'has-success': !postDescription.errors }">
+                        <textarea type="text" class="form-control" placeholder="Description" name="description" [(ngModel)]="postModel.description" required #postDescription="ngModel"></textarea>
+                        <span class="help-block" *ngIf="(postDescription.invalid && (postDescription.dirty  || postDescription.touched))
+                        || (!formValid && postDescription.errors)
+                        ">
+                           <p class="required" *ngIf="postDescription.errors?.required">Description is required</p>
+                        </span>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">Status
+                        <span class="required"> * </span>
+                     </label>
+                     <div class="col-md-7" [ngClass]="{'has-error': (postStatus.errors && (postStatus.dirty || postStatus.touched))
+                     || (!formValid && postStatus.errors), 'has-success': !postStatus.errors }">
+                        <select class="form-control form-filter input-sm" [(ngModel)]="postModel.status" name="status" required #postStatus="ngModel">
+                           <!-- <option [ngValue]="0">Select status</option> -->
+                           <option *ngFor="let stt of ListStatus" [ngValue]="stt.value">{{stt.text}}</option>
+                        </select>
+                        <span class="help-block" *ngIf="(postStatus.invalid && (postStatus.dirty || postStatus.touched))
+                        || (!formValid && postStatus.errors)
+                        ">
+                           <p class="required" *ngIf="postStatus.errors?.required">Post status is required</p>
+                        </span>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">Publish Date
+                        <span class="required"> * </span>
+                     </label>
+
+                     <div class="col-md-7" [ngClass]="{
+                     'has-error': (publishDate.errors && (publishDate.dirty || publishDate.touched))
+                     || (!formValid && publishDate.errors), 'has-success': !publishDate.errors }">
+                        <!-- <my-date-picker name="publishDate" [options]="configSetting.myDatePickerOptions" [(ngModel)]="model" [locale]="'vi'" placeholder="From"
+                        (dateChanged)="postModel.publishDate = configSetting.changeDatetimeEvent($event)"  required #publishDate="ngModel" >
+                        </my-date-picker> -->
+                        <!-- (dateChanged)="postModel.publishDate = configSetting.changeDatetimeEvent($event)" -->
+                        <input type="date" class="form-control" placeholder="Publish Date" name="publishDate" [ngModel]="postModel.publishDate | date:'yyyy-MM-dd'"
+                         (ngModelChange)="postModel.publishDate = $event" required #publishDate="ngModel"/>
+                        <span class="help-block" *ngIf="(publishDate.invalid && (publishDate.dirty  || publishDate.touched))
+                        || (!formValid && publishDate.errors)
+                        ">
+                           <p class="required" *ngIf="publishDate.errors?.required">Publish date is required</p>
+                        </span>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">Thumbnail Image
+                        <span class="required"> * </span>
+                     </label>
+                     <div class="col-md-7">
+                        <!-- <div id="previewImages" width="100px" height="100px"></div> -->
+                       <img [src]="configSetting.getMediaURL(postModel.thumbnailImage)" width="100px" height="100px" style="border: 1px" />
+                       <input type="file" #thumbnailImage name="thumbnailImage" (change)="onFileChange($event)" style="display:none"/>
+                       <a (click)="thumbnailImage.click()">Change image </a>
+                       <span class="help-block" *ngIf="(postModel.thumbnailImage == '' || postModel.thumbnailImage == null)">
+                        <p class="required">Image is required</p>
+                       </span>
+                     </div>
+                     <!-- <div class="col-md-7" [ngClass]="{
+                     'has-error': (thumbnailImage.errors && (thumbnailImage.dirty || thumbnailImage.touched))
+                     || (!formValid && thumbnailImage.errors), 'has-success': !thumbnailImage.errors }">
+                        <input #formUploadFile type="file" name="thumbnailImage" [(ngModel)]="postModel.thumbnailImage" (change)="uploadFile($event)" accept="image/*" required #thumbnailImage="ngModel"/>
+                        <div id="previewImages" className="form-row"></div>
+                        <span class="help-block" *ngIf="(thumbnailImage.invalid && (thumbnailImage.dirty  || thumbnailImage.touched))
+                        || (!formValid && thumbnailImage.errors)
+                        ">
+                           <p class="required" *ngIf="thumbnailImage.errors?.required">Thumbnail image is required</p>
+                        </span>
+                     </div> -->
+                  </div>
+                  <!-- <div class="form-group" >
+                     <label class="control-label col-md-3">Published Date
+                     </label>
+                     <div class="col-md-7">
+                          <div class="input-group date date-picker" data-date-format="mm/dd/yyyy" [ngClass]="
+                          {'has-error': (postPublishDate.errors && (postPublishDate.dirty || postPublishDate.touched))
+                         || (!formValid && postPublishDate.errors), 'has-success': !postPublishDate.errors }">
+                             <input type="text" class="form-control form-filter input-sm" name="publishDate" placeholder="Publish Date" [(ngModel)]="postModel.publishDate"
+                                #postPublishDate="ngModel"/>
+                             <span class="input-group-btn input-sm">
+                               <button class="btn btn-sm default" type="button">
+                                <i class="fa fa-calendar"></i>
+                               </button>
+                             </span>
+
+
+                           </div>
+                            <div class="">
+                              <span class="help-block" *ngIf="postPublishDate.invalid && (postPublishDate.dirty || postPublishDate.touched)">
+                                 <p class="required" *ngIf="postPublishDate.errors.required">Post status is required</p>
+                              </span>
+                           </div>
+
+                     </div>
+                  </div> -->
+
+                 </div>
+                 <div class="form-actions">
+                   <div class="row">
+                     <div class="col-md-offset-3 col-md-9">
+                       <button type="submit" class="btn green">Save</button>
+                       <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">Cancel</button>
+                     </div>
+                   </div>
+                 </div>
+
+               </form>
+               <!-- END FORM-->
+             </div>
+           </div>
+           <!-- END VALIDATION STATES-->
+         </div>
+      </div>
+     </div>
+   </div>
+ </div>
+</div>

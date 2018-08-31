@@ -1,0 +1,217 @@
+<div id="offer-price-update"class="modal fade" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-lg">
+   <div class="modal-content">
+     <div class="modal-body">
+      <div class="row">
+         <div class="col-md-12">
+           <!-- BEGIN VALIDATION STATES-->
+           <div class="portlet light portlet-fit portlet-form bordered">
+             <div class="portlet-title ">
+               <div class="caption">
+                 <i class="icon-settings font-red"></i>
+                 <span class="caption-subject font-red sbold uppercase">Offer Price Detail</span>
+               </div>
+             </div>
+             <div class="portlet-body">
+               <!-- BEGIN FORM-->
+               <form class="form-horizontal" (ngSubmit)="onUpdateOfferPrice(offerPriceUpdate)" autocomplete="off" #offerPriceUpdate="ngForm">
+
+                  <div class="form-body">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Status
+                           <span class="required"> * </span>
+                        </label>
+                        <!-- <div class="col-md-7" [ngClass]="{
+                           'has-error': (status.errors && (status.dirty || status.touched))
+                           || (!formValid && status.errors), 'has-success': !status.errors }">
+                           <select class="form-control form-filter input-sm" [(ngModel)]="offerPriceModel.status" name="status" #status="ngModel" required>
+                              <option [ngValue]="0">Select status</option>
+                              <option *ngFor="let stt of statuses" [ngValue]="stt.value">{{stt.text}}</option>
+                           </select>
+                           <span class="help-block" *ngIf="status.invalid && (status.dirty || status.touched)
+                           || (!formValid && status.errors)"
+                           >
+                              <p class="required" *ngIf="status.errors.required">Service status is required</p>
+                           </span>
+                        </div> -->
+                        <div class="col-md-7" [ngClass]="{'has-error': (status.errors && (status.dirty || status.touched))
+                        || (!formValid && status.errors),
+                        'has-success': !status.errors
+                        }">
+                          <select class="form-control form-filter input-sm" [(ngModel)]="offerPriceModel.status" name="status" #status="ngModel" required>
+                            <option *ngFor="let item of statuses" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                          <span class="help-block" *ngIf="(status.invalid && (status.dirty  || status.touched))
+                          || (!formValid && status.errors)
+                          ">
+                            <p class="required" *ngIf="status.errors.required">Status is required</p>
+                          </span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Previous Note
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <textarea type="text" class="form-control" name="previousNote" [value]="offerPriceModel.note" rows="10"></textarea>
+                           <!-- <div type="text" class="form-control">{{ offerPriceModel.note }}</div> -->
+                        </div>
+                     </div>
+
+                     <!-- <div class="form-group">
+                        <label class="control-label col-md-3">Notes
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7" [ngClass]="{
+                           'has-error': note.errors && (note.dirty  || (submited && !note.dirty)),
+                           'has-success': !note.errors}">
+                           <textarea class="form-control form-filter input-sm" [(ngModel)]="newNote" name="note" #note="ngModel" required></textarea>
+                           <span class="help-block" *ngIf="note.invalid && (note.dirty || note.touched)">
+                              <p class="required" *ngIf="note.errors.required">Note is required</p>
+                           </span>
+                        </div>
+                      </div> -->
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Notes
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7" [ngClass]="{
+                           'has-error': (note.errors && (note.dirty || note.touched))
+                           || (!formValid && note.errors), 'has-success': !note.errors }">
+                           <input type="text" class="form-control" placeholder="Title" name="note" [(ngModel)]="newNote" required #note="ngModel" />
+                           <span class="help-block" *ngIf="(note.invalid && (note.dirty  || note.touched))
+                           || (!formValid && note.errors)
+                           ">
+                              <p class="required" *ngIf="note.errors?.required">Note is required</p>
+                              <!-- <p class="required" *ngIf="radioTitle.errors.maxlength || serviceName.errors.minlength">Service name must be between 1 and 1024 characters</p> -->
+                           </span>
+                        </div>
+                      </div>
+                      <!-- <div class="form-actions"> -->
+                         <div class="row" style="padding-bottom: 20px">
+                            <div class="col-md-offset-3 col-md-9">
+                              <button type="submit" class="btn green">Save</button>
+                              <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">Cancel</button>
+                            </div>
+                         </div>
+                      <!-- </div> -->
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Fullname
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="RadioId" [value]="offerPriceModel.fullName" readonly />
+                        </div>
+                     </div>
+
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Phone
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="phone" [value]="offerPriceModel.phone" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Address
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="address" [value]="offerPriceModel.address" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Service
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="service" [value]="offerPriceModel.service" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Unit
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="unit" [value]="offerPriceModel.unit" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Package Material
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="packageMaterial" [value]="offerPriceModel.packageMaterial" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Size (L x W x H)
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="size" value="{{ offerPriceModel.length }} cm x {{ offerPriceModel.width }} cm x {{ offerPriceModel.height }} cm " readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Departure
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="departurePlace" [value]="offerPriceModel.departurePlace" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Destination
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="destinationPlace" [value]="offerPriceModel.destinationPlace" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Time target
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="timeTarget" [value]="offerPriceModel.timeTarget + ' h'" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Temperature Required
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="temperatureRequired" [value]="offerPriceModel.temperatureRequired + ' &deg;C'" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Price Required
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="priceRequired" [textMask]="{mask: configSetting.MaskFormat.currency('')}"
+                           [value]="offerPriceModel.priceRequired" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Ware Content
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="wareContent" [value]="offerPriceModel.wareContent" readonly />
+                        </div>
+                     </div>
+
+                 </div>
+
+               </form>
+               <!-- END FORM-->
+             </div>
+           </div>
+           <!-- END VALIDATION STATES-->
+         </div>
+      </div>
+     </div>
+   </div>
+ </div>
+</div>

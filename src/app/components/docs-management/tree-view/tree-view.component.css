@@ -1,0 +1,53 @@
+/* organization tree view  */
+.tree, .tree ul {
+   margin: 0;
+   padding: 0;
+   list-style: none
+}
+.tree ul {
+   margin-left: 1em;
+   position: relative
+}
+
+.tree ul:before {
+   content: "";
+   display: block;
+   width: 0;
+   position: absolute;
+   top: -16px;
+   bottom: 0;
+   left: -8px;
+   border-left: 1px solid
+}
+.tree li {
+   margin: 0;
+   padding: 0 1em;
+   line-height: 2em;
+   /* color: #369; */
+   font-weight: 800;
+   position: relative
+}
+.tree ul li:before {
+   content: "";
+   display: block;
+   height: 0;
+   border-top: 1px solid;
+   margin-top: -1px;
+   position: absolute;
+   width: 22px;
+   top: 13px;
+   left: -8px;
+}
+.tree ul li:last-child:before {
+   background: #fff;
+   height: auto;
+   top: 1em;
+   bottom: 0
+}
+.indicator {
+   margin-right:5px;
+}
+.tree li a {
+   text-decoration: none;
+   color:#369;
+}

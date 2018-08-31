@@ -1,0 +1,151 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- Begin: Demo Datatable 1 -->
+        <div class="portlet light portlet-fit portlet-datatable">
+            <div class="portlet-title portlet-title-action ">
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-circle blue-steel btn-outline" (click)="onShowAddRadio()">
+                        <i class="fa fa-plus"></i> Thêm mới </a>
+                </div>
+            </div>
+        </div>
+        <div class="portlet-body">
+           <!-- <div class="text-center text-danger">{{ msg }}</div> -->
+           <div class="table-container">
+                <form (ngSubmit)="searchRadio()" #searchForm="ngForm" autocomplete="off">
+                    <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax">
+                        <thead>
+                           <tr role="row" class="heading">
+                                <th>
+                                    STT
+                                </th>
+                                <th>
+                                    Radio ID
+                                </th>
+                                <th>
+                                    Tiêu đề
+                                </th>
+                                <th>
+                                    Miêu tả
+                                </th>
+                                <th class="text-center">
+                                    Audio
+                                </th>
+                                <th class="text-center">
+                                    Lịch phát
+                                </th>
+                                <th class="text-center">
+                                    Trạng thái
+                                </th>
+                                <th class="text-center">
+                                    Hành động
+                                </th>
+                           </tr>
+                           <tr role="row" class="filter">
+                                <td>
+                                    <!-- <div>
+                                        <input type="text" class="form-control form-filter input-sm" name="id" [(ngModel)]="searchParams.id" #id="ngModel" />
+                                    </div> -->
+                                </td>
+                                <td>
+                                    <!-- <div>
+                                        <input type="text" class="form-control form-filter input-sm" name="bannerName" [(ngModel)]="searchParams.bannerName" minlength="3"
+                                            maxlength="150" #bannerName="ngModel" />
+                                    </div> -->
+                                </td>
+                                <td>
+                                   <div>
+                                      <input type="text" class="form-control form-filter input-sm" name="name" [(ngModel)]="searchParams.title" #name="ngModel" />
+                                   </div>
+                                </td>
+                                <td>
+                                   <div>
+                                      <input type="text" class="form-control form-filter input-sm" name="description" [(ngModel)]="searchParams.description" #description="ngModel" />
+                                   </div>
+                                </td>
+                                <td>
+                                   <!-- audio -->
+                                </td>
+                                <td>
+                                   <!-- schedule -->
+                                </td>
+                                <td>
+                                   <div>
+                                      <select class="form-control form-filter input-sm" [(ngModel)]="searchParams.status" name="status" #status="ngModel">
+                                          <option *ngFor="let item of statuses" [ngValue]="item.value">{{item.text}}</option>
+                                      </select>
+                                   </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="margin-bottom-5">
+                                        <button class="btn btn-sm yellow filter-submit margin-bottom" type="submit">
+                                            <i class="fa fa-search"></i>Tìm kiếm</button>
+                                    </div>
+                                </td>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <!-- <tr *ngFor="let service of ListService | paginate: { itemsPerPage: searchParams.pageSize, currentPage: searchParams.pageIndex, totalItems: totalRow };let last = last "> -->
+                           <!-- <ng-template ngFor let-radio let-i="index" let-last="last" [ngForOf]="ListRadio | paginate: { itemsPerPage: pageSize, currentPage: pageIndex }"> -->
+                              <tr *ngFor="let radio of ListRadio | paginate: { itemsPerPage: pageSize, currentPage: pageIndex }; let i = index; let last = last">
+
+                                 <td>
+                                    {{ pageSize * pageIndex + i + 1 - ( pageIndex > 0 ? pageSize : 0 ) }}
+                                 </td>
+                                 <td>
+                                     {{radio._id}}
+                                 </td>
+                                <td>
+                                    {{radio.title}}
+                                </td>
+                                <td>
+                                    {{radio.description}}
+                                </td>
+                                <td class="text-center">
+                                   <audio  [src]="configSetting.getAudioURL(radio.mediaUrl)" controls>
+                                   </audio>
+                                </td>
+                                <td class="text-center">
+                                   <a href="javascript:;" [routerLink]="['/g/radio-schedule',radio._id]" class="btn btn-circle btn-outline green">
+                                       <i class="fa fa-edit"></i> Xem chi tiết</a>
+                                </td>
+                                <td class="text-center">
+                                    {{configSetting.ListStatusView[radio.status].value}}
+                                </td>
+                                <!-- <td>
+                                    <a href="javascript:;" [routerLink]="['/g/banner-item',banner.i]" class="btn btn-circle btn-outline green">
+                                        <a><i class="fa fa-edit"></i> Banner Item</a>
+                                </td> -->
+                                <td class="text-center">
+                                    <a href="javascript:;" class="btn btn-circle btn-outline green" (click)="onShowUpdateRadio(radio._id)">
+                                        <i class="fa fa-pencil"></i> Sửa </a>
+                                    <button type="button" class="btn btn-circle btn-outline red fa fa-remove radio_remove_bs_confirmation" data-toggle="confirmation"
+                                        attr.tmpid="{{radio._id}}">
+                                        <span *ngIf="last">{{onRegisterConfirmation()}}</span>
+                                        Xóa
+                                    </button>
+                                    <!-- <button type="button" (click)="deleteService(service._id)" class="btn btn-circle btn-outline red fa fa-remove banner_remove_bs_confirmation">
+                                       Remove
+                                    </button> -->
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pull-right">
+                       <pagination-controls
+                            (pageChange)="pageIndex = $event"
+                            previousLabel="Trước"
+                            nextLabel="Sau"
+                        >
+                        </pagination-controls>
+                    </div>
+                </form>
+           </div>
+        </div>
+        <!-- End: Demo Datatable 1 -->
+    </div>
+</div>
+<div class="popupDetail">
+    <app-radio-add-or-change #radioAddOrChange (reloadRadioEvent)="loadListRadio()"></app-radio-add-or-change>
+</div>

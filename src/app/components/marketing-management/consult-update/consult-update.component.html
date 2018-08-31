@@ -1,0 +1,126 @@
+<div id="consult-update"class="modal fade" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-lg">
+   <div class="modal-content">
+     <div class="modal-body">
+      <div class="row">
+         <div class="col-md-12">
+           <!-- BEGIN VALIDATION STATES-->
+           <div class="portlet light portlet-fit portlet-form bordered">
+             <div class="portlet-title ">
+               <div class="caption">
+                 <i class="icon-settings font-red"></i>
+                 <span class="caption-subject font-red sbold uppercase">Consult Service Detail</span>
+               </div>
+             </div>
+             <div class="portlet-body">
+               <!-- BEGIN FORM-->
+               <form class="form-horizontal" (ngSubmit)="onUpdateConsultService(consultService)" autocomplete="off" #consultService="ngForm">
+
+                  <div class="form-body">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Status
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7" [ngClass]="{'has-error': (status.errors && (status.dirty || status.touched))
+                        || (!formValid && status.errors),
+                        'has-success': !status.errors
+                        }">
+                          <select class="form-control form-filter input-sm" [(ngModel)]="consultServiceModel.status" name="status" #status="ngModel" required>
+                            <option *ngFor="let item of statuses" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                          <span class="help-block" *ngIf="(status.invalid && (status.dirty  || status.touched))
+                          || (!formValid && status.errors)
+                          ">
+                            <p class="required" *ngIf="status.errors.required">Status is required</p>
+                          </span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Previous Note
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <textarea type="text" class="form-control" name="previousNote" [(ngModel)]="consultServiceModel.note" rows="10" readonly #previous="ngModel"></textarea>
+                           <!-- <div type="text" class="form-control">{{ consultServiceModel.note }}</div> -->
+                        </div>
+                     </div>
+
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Notes
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7" [ngClass]="{
+                           'has-error': (note.errors && (note.dirty || note.touched))
+                           || (!formValid && note.errors), 'has-success': !note.errors }">
+                           <input type="text" class="form-control" placeholder="Title" name="note" [(ngModel)]="newNote" required #note="ngModel" />
+                           <span class="help-block" *ngIf="(note.invalid && (note.dirty  || note.touched))
+                           || (!formValid && note.errors)
+                           ">
+                              <p class="required" *ngIf="note.errors?.required">Note is required</p>
+                              <!-- <p class="required" *ngIf="radioTitle.errors.maxlength || serviceName.errors.minlength">Service name must be between 1 and 1024 characters</p> -->
+                           </span>
+                        </div>
+                     </div>
+                      <!-- <div class="form-actions"> -->
+                         <div class="row" style="padding-bottom: 20px">
+                            <div class="col-md-offset-3 col-md-9">
+                              <button type="submit" class="btn green">Save</button>
+                              <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">Cancel</button>
+                            </div>
+                         </div>
+                      <!-- </div> -->
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Fullname
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="RadioId" [(ngModel)]="consultServiceModel.fullName" readonly #fullName="ngModel" />
+                        </div>
+                     </div>
+
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Phone
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="phone" [(ngModel)]="consultServiceModel.phone" readonly #phone="ngModel" />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Address
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="address" [(ngModel)]="consultServiceModel.address" readonly #address="ngModel" />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Title
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="title" [(ngModel)]="consultServiceModel.title" readonly #title="ngModel" />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Content
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="content" [(ngModel)]="consultServiceModel.content" readonly #content="ngModel" />
+                        </div>
+                     </div>
+
+                 </div>
+
+               </form>
+               <!-- END FORM-->
+             </div>
+           </div>
+           <!-- END VALIDATION STATES-->
+         </div>
+      </div>
+     </div>
+   </div>
+ </div>
+</div>

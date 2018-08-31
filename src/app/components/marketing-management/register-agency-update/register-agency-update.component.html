@@ -1,0 +1,192 @@
+<div id="register-agency-update"class="modal fade" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-lg">
+   <div class="modal-content">
+     <div class="modal-body">
+      <div class="row">
+         <div class="col-md-12">
+           <!-- BEGIN VALIDATION STATES-->
+           <div class="portlet light portlet-fit portlet-form bordered">
+             <div class="portlet-title ">
+               <div class="caption">
+                 <i class="icon-settings font-red"></i>
+                 <span class="caption-subject font-red sbold uppercase">Register Agency Detail</span>
+               </div>
+             </div>
+             <div class="portlet-body">
+               <!-- BEGIN FORM-->
+               <form class="form-horizontal" (ngSubmit)="onUpdateRegisterAgency(registerAgencyUpdate)" autocomplete="off" #registerAgencyUpdate="ngForm">
+
+                  <div class="form-body">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Status
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7" [ngClass]="{'has-error': (status.errors && (status.dirty || status.touched))
+                        || (!formValid && status.errors),
+                        'has-success': !status.errors
+                        }">
+                          <select class="form-control form-filter input-sm" [(ngModel)]="registerAgencyModel.status" name="status" #status="ngModel" required>
+                            <option *ngFor="let item of statuses" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                          <span class="help-block" *ngIf="(status.invalid && (status.dirty  || status.touched))
+                          || (!formValid && status.errors)
+                          ">
+                            <p class="required" *ngIf="status.errors.required">Status is required</p>
+                          </span>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Previous Note
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <textarea type="text" class="form-control" name="previousNote" [value]="registerAgencyModel.note" rows="10" readonly></textarea>
+                           <!-- <div type="text" class="form-control">{{ registerAgencyModel.note }}</div> -->
+                        </div>
+                     </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Notes
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7" [ngClass]="{
+                           'has-error': (note.errors && (note.dirty || note.touched))
+                           || (!formValid && note.errors), 'has-success': !note.errors }">
+                           <input type="text" class="form-control" placeholder="Title" name="note" [(ngModel)]="newNote" required #note="ngModel" />
+                           <span class="help-block" *ngIf="(note.invalid && (note.dirty  || note.touched))
+                           || (!formValid && note.errors)
+                           ">
+                              <p class="required" *ngIf="note.errors?.required">Note is required</p>
+                              <!-- <p class="required" *ngIf="radioTitle.errors.maxlength || serviceName.errors.minlength">Service name must be between 1 and 1024 characters</p> -->
+                           </span>
+                        </div>
+                      </div>
+                      <!-- <div class="form-actions"> -->
+                         <div class="row" style="padding-bottom: 20px">
+                            <div class="col-md-offset-3 col-md-9">
+                              <button type="submit" class="btn green">Save</button>
+                              <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">Cancel</button>
+                            </div>
+                         </div>
+                      <!-- </div> -->
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Fullname
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="RadioId" [value]="registerAgencyModel.fullName" readonly />
+                        </div>
+                     </div>
+
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Phone
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="phone" [value]="registerAgencyModel.phone" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Email
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="email" [value]="registerAgencyModel.email" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Address
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="address" [value]="registerAgencyModel.address" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Personal Or Business Id
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="pesonalOrBusinessRegisterId" [value]="registerAgencyModel.personalOrBusinessRegisterId" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Issued Date
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="issuedDate" [value]="registerAgencyModel.issuedDate | date: 'dd/MM/yyyy'" readonly/>
+                           <!-- <input type="date" class="form-control" name="issuedDate" [ngModel]="registerAgencyModel.issuedDate | date: 'yyyy-dd-MM'" readonly #issuedPlace="ngModel" /> -->
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Issued Place
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="issuedPlace" [value]="registerAgencyModel.issuedPlace" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Created User Id
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="createdUserId" [value]="registerAgencyModel.createdUserId" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Job
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="job" [value]="registerAgencyModel.job" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Regiser Agency Address
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="registerAgencyAddress" [value]="registerAgencyModel.registerAgencyAddress" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Total Square
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="totalSquare" [textMask]="{mask: configSetting.MaskFormat.thousandFormat('')}"
+                           [value]="registerAgencyModel.totalSquare" readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Size (L x W x H)
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="size" value="{{ registerAgencyModel.length }} m x {{ registerAgencyModel.width }} m x {{ registerAgencyModel.height }} m " readonly />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Start Date
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="startDate" [value]="registerAgencyModel.startDate | date: 'dd/MM/yyyy'" readonly />
+                        </div>
+                     </div>
+
+                 </div>
+
+               </form>
+               <!-- END FORM-->
+             </div>
+           </div>
+           <!-- END VALIDATION STATES-->
+         </div>
+      </div>
+     </div>
+   </div>
+ </div>
+</div>

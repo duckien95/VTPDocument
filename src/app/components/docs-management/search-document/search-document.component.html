@@ -1,0 +1,103 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- Begin: Demo Datatable 1 -->
+        <div class="portlet light portlet-fit portlet-datatable">
+            <div class="portlet-title portlet-title-action ">
+                <div class="caption">
+                    <i class="icon-settings font-green"></i>
+                    <span class="caption-subject font-green sbold uppercase"> TÌM KIẾM VĂN BẢN </span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <!--<form #searchDocument="ngForm">-->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="checkbox">
+                              <!-- <label data-toggle="collapse" data-target="#parent1">
+                                 <input type="checkbox"/>
+                              </label> -->
+                                <div class="caption">
+                                    <span class="caption-subject font-green sbold uppercase"> Thông tin tìm kiếm </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-12 form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label text-left">Ngày ban hành</label>
+                                        <div class="col-sm-9">
+                                          <div class="row">
+                                                <div class="col-sm-12 col-md-6">
+                                                  <my-date-picker name="issuedDateFrom"  class="date-input"
+                                                                  [options]="configSetting.myDatePickerOptions"
+                                                                  [locale]="'vi'" placeholder="Từ"
+                                                                  (dateChanged)="searchParams.issuedDateFrom = configSetting.changeDatetimeEvent($event)">
+                                                  </my-date-picker>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                  <my-date-picker name="issuedDateTo"  class="date-input" [options]="configSetting.myDatePickerOptions" [locale]="'vi'" placeholder="Đến" (dateChanged)="searchParams.issuedDateTo = configSetting.changeDatetimeEvent($event)">
+                                                  </my-date-picker>
+                                                </div>
+                                          </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label text-left">Ngày hết hạn</label>
+                                        <div class="col-sm-9">
+                                          <div class="row">
+                                                <div class="col-sm-12 col-md-6">
+                                                  <my-date-picker name="expiredDateFrom" class="date-input" [options]="configSetting.myDatePickerOptions" [locale]="'vi'" placeholder="Từ" (dateChanged)="searchParams.expiredDateFrom = configSetting.changeDatetimeEvent($event)">
+                                                  </my-date-picker>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                  <my-date-picker name="expiredDateTo" class="date-input"
+                                                                  [options]="configSetting.myDatePickerOptions"
+                                                                  [locale]="'vi'" placeholder="Đến"
+                                                                  (dateChanged)="searchParams.expiredDateTo = configSetting.changeDatetimeEvent($event)">
+                                                  </my-date-picker>
+                                                </div>
+                                          </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label text-left">Thay thế cho văn bản</label>
+                                        <div class="col-sm-9">
+                                            <app-suggest-title
+                                                      [title]="replaceForContent"
+                                                     [(ngModel)]="listDocsSelected"
+                                                     [ngModelOptions]="{standalone: true}">
+                                            </app-suggest-title>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-12 form-horizontal">
+                                  <div class="form-group">
+                                      <!--<div class="checkbox">-->
+                                         <!--<div class="caption">-->
+                                           <!--<span class="caption-subject font-green sbold uppercase"> Chọn đơn vị công tác </span>-->
+                                         <!--</div>-->
+                                      <!--</div>-->
+                                      <app-tree-view
+                                          [treeData]="treeData"
+                                          [(ngModel)]="searchParams.groupId"
+                                          [ngModelOptions]="{standalone: true}">
+
+                                      </app-tree-view>
+
+                                   </div>
+                                </div>
+                            </div>
+                            <div class="actions margin-bottom-10">
+                                <button class="btn btn-sm yellow filter-submit margin-bottom" type="button"
+                                        (click)="searchDocument()">
+                                <i class="fa fa-search"></i> Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </div>
+                <!--</form>-->
+            </div>
+        </div>
+    <!-- End: Demo Datatable 1 -->
+    </div>
+</div>

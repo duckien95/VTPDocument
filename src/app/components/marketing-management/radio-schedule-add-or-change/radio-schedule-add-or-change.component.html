@@ -1,0 +1,113 @@
+<div id="radio-schedule-add-or-change"class="modal fade" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-lg">
+   <div class="modal-content">
+     <div class="modal-body">
+      <div class="row">
+         <div class="col-md-12">
+           <!-- BEGIN VALIDATION STATES-->
+           <div class="portlet light portlet-fit portlet-form bordered">
+             <div class="portlet-title ">
+               <div class="caption">
+                 <i class="icon-settings font-red"></i>
+                 <span [hidden]="radioScheduleModel._id != undefined" class="caption-subject font-red sbold uppercase">Thêm lịch phát mới</span>
+                 <span [hidden]="radioScheduleModel._id == undefined" class="caption-subject font-red sbold uppercase">Chỉnh sửa lịch phát</span>
+               </div>
+             </div>
+             <div class="portlet-body">
+               <!-- BEGIN FORM-->
+               <form class="form-horizontal" (ngSubmit)="onAddOrChangeRadioSchedule(radioScheduleAddOrChange)" autocomplete="off" #radioScheduleAddOrChange="ngForm">
+
+                 <div class="form-body">
+                     <div class="form-group">
+                        <label class="control-label col-md-3">RadioId
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="RadioId" value="{{radioModel._id}}" readonly/>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Tiêu đề
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" placeholder="Title" name="radioTitle" value="{{radioModel.title}}" readonly />
+                        </div>
+                     </div>
+                  <div class="form-group">
+                     <label class="control-label col-md-3">Miêu tả
+                        <span class="required"> * </span>
+                     </label>
+                     <div class="col-md-7" >
+                        <textarea type="text" class="form-control" placeholder="Description" name="description" value="{{radioModel.description}}" readonly></textarea>
+                     </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-md-3">Đường dẫn
+                      <span class="required"> * </span>
+                    </label>
+                    <div class="col-md-7">
+                        <audio  [src]="configSetting.getAudioURL(radioModel.mediaUrl)" controls>
+                          <!-- <source [src]="getURLMedia(radioModel.mediaUrl)" controls> -->
+                        </audio>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                     <label class="control-label col-md-3">Trạng thái
+                        <span class="required"> * </span>
+                     </label>
+                     <div class="col-md-7" [ngClass]="{
+                        'has-error': radioStatus.errors && (radioStatus.dirty || radioStatus.touched)|| (!formValid && radioStatus.errors),
+                        'has-success': !radioStatus.errors}">
+                        <select class="form-control form-filter input-sm" [(ngModel)]="radioScheduleModel.status" name="radioStatus" #radioStatus="ngModel" required>
+                           <option *ngFor="let stt of statuses" [ngValue]="stt.value">{{stt.text}}</option>
+                        </select>
+                        <span class="help-block" *ngIf="(radioStatus.invalid && (radioStatus.dirty || radioStatus.touched))
+                        || (!formValid && radioStatus.errors)
+                        ">
+                           <p class="required" *ngIf="radioStatus.errors.required">Chưa chọn trạng thái</p>
+                        </span>
+                     </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-md-3">Ngày phát
+                       <span class="required"> * </span>
+                    </label>
+
+                    <div class="col-md-7" [ngClass]="{
+                    'has-error': (publicDate.errors && (publicDate.dirty || publicDate.touched))
+                    || (!formValid && publicDate.errors), 'has-success': !publicDate.errors }">
+                       <!-- <input type="text" class="form-control" name="oldPublishDate" [value]="postModel.publicDate | date: 'MM/dd/yyyy'" [disabled]="true"> -->
+                       <input type="datetime-local" class="form-control" name="publicDate" [ngModel]="radioScheduleModel.publicDate | date: 'yyyy-MM-ddThh:mm'"
+                       (ngModelChange)="radioScheduleModel.publicDate = $event" required #publicDate="ngModel"/>
+                       <span class="help-block" *ngIf="(publicDate.invalid && (publicDate.dirty  || publicDate.touched))
+                       || (!formValid && publicDate.errors)
+                       ">
+                          <p class="required" *ngIf="publicDate.errors?.required">Chưa chọn ngày giờ phát</p>
+                       </span>
+                    </div>
+                  </div>
+                 </div>
+                 <div class="form-actions">
+                   <div class="row">
+                     <div class="col-md-offset-3 col-md-9">
+                       <button type="submit" class="btn green">Lưu</button>
+                       <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">Hủy bỏ</button>
+                     </div>
+                   </div>
+                 </div>
+
+               </form>
+               <!-- END FORM-->
+             </div>
+           </div>
+           <!-- END VALIDATION STATES-->
+         </div>
+      </div>
+     </div>
+   </div>
+ </div>
+</div>

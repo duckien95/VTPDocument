@@ -1,0 +1,76 @@
+<div id="employee-change" class="modal fade" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-lg">
+   <div class="modal-content">
+     <div class="modal-body">
+      <div class="row">
+         <div class="col-md-12">
+           <!-- BEGIN VALIDATION STATES-->
+           <div class="portlet light portlet-fit portlet-form bordered">
+             <div class="portlet-title ">
+               <div class="caption">
+                 <i class="icon-settings font-red"></i>
+                 <span class="caption-subject font-red sbold uppercase">Add 2nd email</span>
+               </div>
+             </div>
+             <div class="portlet-body">
+               <!-- BEGIN FORM-->
+               <form class="form-horizontal" (ngSubmit)="onAddSecondEmail()" autocomplete="off" #employeeChange="ngForm">
+
+                  <div class="form-body">
+
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Họ tên
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="fullName" [value]="employee.fullName" readonly />
+                        </div>
+                     </div>
+
+                     <div class="form-group">
+                        <label class="control-label col-md-3">Mã nhân viên
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7">
+                           <input type="text" class="form-control" name="employeeCode" [value]="employee.employeeCode" readonly  />
+                        </div>
+                     </div>
+
+                     <div class="form-group">
+                        <label class="control-label col-md-3"> Second email
+                           <span class="required"> * </span>
+                        </label>
+                        <div class="col-md-7" [ngClass]="{
+                           'has-error': (email.errors && (email.dirty || email.touched))
+                           || (!formValid && email.errors), 'has-success': !email.errors }">
+                           <input type="text" class="form-control" placeholder="2nd Email" name="email" [(ngModel)]="secondEmail" required #email="ngModel"
+                            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
+                           <span class="help-block" *ngIf="(email.invalid && (email.dirty  || email.touched))
+                           || (!formValid && email.errors)
+                           ">
+                              <p class="required" *ngIf="email.errors?.required">Email is required</p>
+                              <p class="required" *ngIf="email.errors?.pattern">Email is not valid</p>
+                           </span>
+                        </div>
+                     </div>
+
+                 </div>
+                 <div class="form-actions">
+                    <div class="row">
+                      <div class="col-md-offset-3 col-md-9">
+                         <button type="submit" class="btn green">Save</button>
+                         <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">Cancel</button>
+                      </div>
+                    </div>
+                 </div>
+               </form>
+               <!-- END FORM-->
+             </div>
+           </div>
+           <!-- END VALIDATION STATES-->
+         </div>
+      </div>
+     </div>
+   </div>
+ </div>
+</div>

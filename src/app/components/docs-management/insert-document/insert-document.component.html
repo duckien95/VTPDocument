@@ -1,0 +1,130 @@
+<div class="row">
+    <div class="col-md-12 container">
+        <!-- Begin: Demo Datatable 1 -->
+        <div class="portlet light portlet-fit portlet-datatable">
+            <div class="portlet-title portlet-title-action ">
+                <div class="caption">
+                    <i class="icon-settings font-green"></i>
+                    <span class="caption-subject font-green sbold uppercase"> QUẢN LÝ VĂN BẢN </span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <!--<form #createDocsForm="ngForm">-->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="checkbox">
+                              <!-- <label data-toggle="collapse" data-target="#parent1">
+                                 <input type="checkbox"/>
+                              </label> -->
+                                <div class="caption">
+                                    <span class="caption-subject font-green sbold uppercase"> Thêm mới văn bản </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-12 form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label text-left">Tiêu đề</label>
+                                        <div class="col-sm-9">
+                                          <app-suggest-title
+                                            [title]="titleContent"
+                                            [(ngModel)]="documentInsertModel.title"
+                                            [ngModelOptions]="{standalone: true}">
+                                          </app-suggest-title>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label text-left">Thẻ</label>
+                                        <div class="col-sm-9">
+                                            <app-suggest-tag
+                                              [data]="listTags"
+                                              [(ngModel)]="documentInsertModel.tags"
+                                              [ngModelOptions]="{standalone: true}">
+                                            </app-suggest-tag>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label text-left">Tóm tắt nội dung</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control form-filter input-sm"
+                                                   name="summary" [(ngModel)]="documentInsertModel.summary"
+                                                   required/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label text-left">Ngày ban hành</label>
+                                        <div class="col-sm-9">
+                                              <my-date-picker name="fromBirthday"
+                                                              [options]="configSetting.myDatePickerOptions" class="date-input" [locale]="'vi'" placeholder="Sau năm"
+                                              (dateChanged)="documentInsertModel.issuedDate = configSetting.changeDatetimeEvent($event)">
+                                              </my-date-picker>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label text-left">Ngày ban hành</label>
+                                        <div class="col-sm-9">
+                                              <my-date-picker name="toBirthday"
+                                                              [options]="configSetting.myDatePickerOptions" class="date-input" [locale]="'vi'" placeholder="Trước năm"
+                                              (dateChanged)="documentInsertModel.expiredDate = configSetting.changeDatetimeEvent($event)">
+                                              </my-date-picker>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label text-left">Tập tin</label>
+                                        <div class="col-sm-9">
+                                            <input type="file" #uploadFileInput (change)="uploadFile($event)"
+                                                   style="display: none">
+                                            <div *ngIf="documentInsertModel.pathFile">
+                                              <p>
+                                                {{ documentInsertModel.pathFile }}
+                                              </p>
+
+                                            </div>
+                                            <a (click)="uploadFileInput.click()">Tải văn bản lên</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label text-left">Thay thế cho văn bản</label>
+                                        <div class="col-sm-9">
+                                          <app-suggest-title
+                                            [title]="replaceForContent"
+                                            [(ngModel)]="documentInsertModel.replacedFor"
+                                            [ngModelOptions]="{standalone: true}">
+                                          </app-suggest-title>
+                                        </div>
+                                    </div>
+                                    <div class="actions margin-bottom-10">
+                                        <button class="btn btn-sm blue filter-submit margin-bottom" type="button"
+                                                (click)="createDocs()">
+                                          <i class="fa fa-plus"></i>Tạo mới văn bản
+                                        </button>
+                                    </div>
+                                </div>
+                              <div class="col-lg-6 col-sm-12 form-horizontal">
+                                                                  <div class="form-group">
+                                      <!--<div class="checkbox">-->
+                                         <!--<div class="caption">-->
+                                           <!--<span class="caption-subject font-green sbold uppercase">  </span>-->
+                                           <!--<span>Nhóm văn bản</span>-->
+                                         <!--</div>-->
+                                      <!--</div>-->
+                                      <app-tree-view
+                                          [treeData]="treeData"
+                                          [(ngModel)]="documentInsertModel.groupId"
+                                          [ngModelOptions]="{standalone: true}">
+
+                                      </app-tree-view>
+                                   </div>
+                            </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                <!--</form>-->
+            </div>
+        </div>
+    <!-- End: Demo Datatable 1 -->
+    </div>
+</div>
+

@@ -1,0 +1,30 @@
+
+<div #mySelectTag id="mySelectTag" style="position: relative">
+    <div class="tag-ctrl no-margin" (click)="toggle()">
+        <span></span>
+        <ng-template ngFor let-item [ngForOf]="value">
+            <div class="choiseItem">
+                <span title="{{item.text}}">{{item.text}}</span>
+                <button (click)="removeItem($event, item)">&times;</button>
+            </div>
+        </ng-template>
+        <input #tagQueryInput type="text" (keyup)="searchTags($event)" [(ngModel)]="str"
+               [ngModelOptions]="{standalone: true}"
+               placeholder="{{!value.length ? 'Nhập tên thẻ':''}}" class="tagQueryInput"
+               [style.width.px]="value.length && (str.length > 1) ? (str.length * 10) : false"
+               [class.tagQueryInputExpanded]="!value.length">
+    </div>
+    <!--<div class="tagResult" *ngIf="isOpen">-->
+      <div *ngIf="isOpen" class="tagResult">
+        <div class="contentItem" [class.no-result]="!ShowData.length">
+            <ng-template ngFor let-item [ngForOf]="ShowData" let-i="index">
+                <div>
+                    <div class="listTagsItem" [class.tagitem-focus]="keyFocus === i*1"
+                         (click)="$event.stopPropagation(); changeValue(item)">
+                        {{item.text}}
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

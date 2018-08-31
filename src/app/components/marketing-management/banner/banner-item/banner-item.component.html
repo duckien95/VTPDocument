@@ -1,0 +1,194 @@
+<div class="row">
+  <div class="col-md-12">
+    <!-- Begin: Demo Datatable 1 -->
+    <div class="portlet light portlet-fit portlet-datatable">
+      <div class="portlet-title portlet-title-action ">
+        <div class="caption">
+          <i class="icon-settings font-green"></i>
+          <span class="caption-subject font-green sbold uppercase"> List banneritem of {{banner.bannerName}} . </span>
+        </div>
+        <div class="actions">
+          <a href="javascript:;" class="btn btn-circle blue-steel btn-outline" (click)="onShowAddOrChangeForm('')">
+            <i class="fa fa-plus"></i> Add new </a>
+        </div>
+      </div>
+      <div class="portlet-body">
+         <!-- <div class="text-danger text-center">{{ msg }}</div> -->
+        <div class="table-container">
+          <form  (ngSubmit)="searchBannerItem()" #searchForm="ngForm" autocomplete="off">
+            <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax">
+              <thead>
+                <tr role="row" class="heading">
+                  <th>
+                    STT
+                  </th>
+                  <th>
+                    BannerItemName
+                  </th>
+                  <!-- <th>
+                    Target Url
+                  </th> -->
+                  <th class="text-center">
+                    ImageUrl
+                  </th>
+                  <th class="text-center time-column">
+                    Start Date
+                  </th>
+                  <th class="text-center time-column">
+                    End Date
+                  </th>
+                  <th class="text-center">
+                    IsDefault
+                  </th>
+                  <th class="text-center">
+                    BackgroundRGB
+                  </th>
+                  <th class="text-center">
+                    Priority
+                  </th>
+                  <th class="text-center">
+                    Status
+                  </th>
+                  <th class="text-center">
+                    Actions
+                  </th>
+                </tr>
+                <tr role="row" class="filter">
+                   <td>
+                      <!-- STT -->
+                   </td>
+                  <td>
+                    <div>
+                      <input type="text" class="form-control form-filter input-sm" name="bannerName" [(ngModel)]="searchParams.bannerItemName" #bannerName="ngModel" />
+                    </div>
+                  </td>
+                  <td>
+                     <!-- image url -->
+                  </td>
+                  <td>
+                    <div class="margin-bottom-5">
+                        <my-date-picker name="fromStartDate" [options]="configSetting.myDatePickerOptions" [locale]="'vi'" placeholder="From"
+                        (dateChanged)="searchParams.fromStartDate = configSetting.changeDatetimeEvent($event)" required>
+                        </my-date-picker>
+                      <!-- <input type="date" class="form-control form-filter input-sm" name="fromStartDate" placeholder="From" [min]="today"
+                        [ngModel]="searchParams.fromStartDate" (ngModelChange)="searchParams.fromStartDate = $event" #fromStartDate="ngModel" /> -->
+                    </div>
+                    <div class="margin-bottom-5">
+                        <my-date-picker name="toStartDate" [options]="configSetting.myDatePickerOptions" [locale]="'vi'" placeholder="To"
+                        (dateChanged)="searchParams.toStartDate = configSetting.changeDatetimeEvent($event)" required>
+                        </my-date-picker>
+                      <!-- <input type="date" class="form-control form-filter input-sm" name="toStartDate" placeholder="To" [min]="searchParams.fromStartDate"
+                       [ngModel]="searchParams.toStartDate" (ngModelChange)="searchParams.toStartDate = $event" #toStartDate="ngModel" /> -->
+                    </div>
+                  </td>
+                  <td>
+                     <div class="margin-bottom-5">
+                        <my-date-picker name="fromEndDate" [options]="configSetting.myDatePickerOptions" [locale]="'vi'" placeholder="From"
+                        (dateChanged)="searchParams.fromEndDate = configSetting.changeDatetimeEvent($event)" required>
+                        </my-date-picker>
+                       <!-- <input type="date" class="form-control form-filter input-sm" name="fromEndDate" placeholder="From"
+                        [ngModel]="searchParams.fromEndDate" (ngModelChange)="searchParams.fromEndDate = $event" #fromEndDate="ngModel" /> -->
+                     </div>
+                     <div class="margin-bottom-5">
+                        <my-date-picker name="toEndDate" [options]="configSetting.myDatePickerOptions" [locale]="'vi'" placeholder="To"
+                        (dateChanged)="searchParams.toEndDate = configSetting.changeDatetimeEvent($event)" required>
+                        </my-date-picker>
+                       <!-- <input type="date" class="form-control form-filter input-sm" name="toEndDate" placeholder="To"
+                        [ngModel]="searchParams.toEndDate" (ngModelChange)="searchParams.toEndDate = $event" #toEndDate="ngModel" /> -->
+                     </div>
+                  </td>
+                  <td class="text-center">
+                     <!-- Is default -->
+                     <div>
+                       <input type="checkbox" class="form-filter input-sm" name="isDefault" [(ngModel)]="searchParams.isDefault" #isDefault="ngModel" />
+                     </div>
+                  </td>
+                  <td>
+                     <!-- background -->
+                  </td>
+                  <td class="text-center">
+                     <!-- priority -->
+                     <div>
+                       <input type="number" class="form-control form-filter input-sm" name="priority" [(ngModel)]="searchParams.priority" #priority="ngModel" />
+                     </div>
+                  </td>
+                  <td>
+                    <div>
+                      <select class="form-control form-filter input-sm" [(ngModel)]="searchParams.status" name="status" #status="ngModel">
+                        <option *ngFor="let item of statuses" [ngValue]="item.value">{{item.text}}</option>
+                      </select>
+                    </div>
+
+                  </td>
+                  <td class="text-center">
+                    <div class="margin-bottom-5">
+                      <button class="btn btn-sm yellow filter-submit margin-bottom" type="submit">
+                        <i class="fa fa-search"></i> Search</button>
+                    </div>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let bannerItem of bannerItems | paginate: { itemsPerPage: pageSize, currentPage: pageIndex };let i = index; let last = last">
+                  <td>
+                    {{ pageSize * pageIndex + i + 1 - ( pageIndex > 0 ? pageSize : 0 ) }}
+                  </td>
+                  <td>
+                    <a href="{{bannerItem.targetUrl}}" target="_blank">
+                      {{bannerItem.bannerItemName}}
+                    </a>
+                  </td>
+                  <!-- <td>
+                    {{bannerItem.targetUrl}}
+                  </td> -->
+                  <td class="text-center">
+                    <a href="{{configSetting.getMediaURL(bannerItem.imageUrl)}}" target="_blank">
+                      <img src="{{configSetting.getMediaURL(bannerItem.imageUrl)}}" width="100px" height="100px" style="border: 1px" />
+                    </a>
+                  </td>
+                  <td class="text-center">
+                    {{bannerItem.startDate | date: 'dd/MM/yyyy'}}
+                  </td>
+                  <td class="text-center">
+                    {{bannerItem.endDate | date: 'dd/MM/yyyy'}}
+                  </td>
+                  <td class="text-center">
+                    {{bannerItem.isDefault}}
+                  </td>
+                  <td class="text-center">
+                    <div [ngStyle]="{'background-color':bannerItem.backgroundRGB}">
+                        {{bannerItem.backgroundRGB}}
+                    </div>
+
+                  </td>
+                  <td class="text-center">
+                    {{bannerItem.priority}}
+                  </td>
+                  <td class="text-center">
+                    {{bannerItem.status}}
+                  </td>
+                  <td class="text-center">
+                    <a href="javascript:;" class="btn btn-circle btn-outline green" (click)="onShowAddOrChangeForm(bannerItem._id)">
+                      <i class="fa fa-pencil"></i> Edit </a>
+                    <button type="button" class="btn btn-circle btn-outline red fa fa-remove banneritem_remove_bs_confirmation" data-toggle="confirmation"
+                      attr.tmpid="{{bannerItem._id}}">
+                      <span *ngIf="last">{{onRegisterConfirmation()}}</span>
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="pull-right">
+               <pagination-controls (pageChange)="pageIndex = $event"></pagination-controls>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- End: Demo Datatable 1 -->
+  </div>
+</div>
+<div class="popupDetail">
+  <app-banner-item-add-or-change #bannerItemAddOrChange (reloadBannerItemEvent)="getBannerItems()"></app-banner-item-add-or-change>
+</div>

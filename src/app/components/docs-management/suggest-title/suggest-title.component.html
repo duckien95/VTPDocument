@@ -1,0 +1,34 @@
+
+<div #mySelectTitle id="mySelectTitle" style="position: relative">
+    <div class="tag-ctrl no-margin" (click)="toggle()">
+        <span></span>
+        <!--<ng-template ngFor let-item [ngForOf]="value">-->
+            <!--<div class="choiseItem">-->
+                <!--<span title="{{item.text}}">{{item.text}}</span>-->
+                <!--<button (click)="removeTitle($event, item)">&times;</button>-->
+            <!--</div>-->
+        <!--</ng-template>-->
+        <div class="choiseItem" *ngIf="value != ''">
+                <span title="{{value}}">{{value}}</span>
+                <button (click)="removeTitle($event, value)">&times;</button>
+            </div>
+        <input #titleQueryInput type="text" (keyup)="searchTitle($event)" [(ngModel)]="str"  autocomplete="on"
+               [ngModelOptions]="{standalone: true}"
+               placeholder="{{!value.length ? title :''}}" class="titleQueryInput"
+               [style.width.px]="value.length && (str.length > 1) ? (str.length * 10) : '50px'"
+               [class.tagQueryInputExpanded]="!value.length">
+    </div>
+    <!--<div class="tagResult" *ngIf="isOpen">-->
+      <div *ngIf="isOpen && ShowData.length" class="tagResult">
+        <div class="contentItem" [class.no-result]="!ShowData.length">
+            <ng-template ngFor let-item [ngForOf]="ShowData" let-i="index">
+                <div>
+                    <div class="listTagsItem" [class.tagitem-focus]="keyFocus === i*1"
+                         (click)="changeTitle($event,item)">
+                        {{item.text}}
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

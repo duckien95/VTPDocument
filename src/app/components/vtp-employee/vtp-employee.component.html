@@ -1,0 +1,380 @@
+<div class="row">
+  <div class="col-md-12">
+    <!-- Begin: Demo Datatable 1 -->
+    <div class="portlet light portlet-fit portlet-datatable">
+      <div class="portlet-title portlet-title-action ">
+        <div class="caption">
+          <i class="icon-settings font-green"></i>
+          <span class="caption-subject font-green sbold uppercase"> DANH SÁCH CÁN BỘ - CÔNG NHÂN VIÊN </span>
+        </div>
+        <div class="actions">
+          <button (click)="exportExel()" target="_blank" class="btn btn-circle blue-steel btn-outline">
+            <i class="fa fa-file-excel-o"></i> Danh sách tài khoản inactivate</button>
+        </div>
+      </div>
+      <div class="portlet-body">
+         <!-- <div class="text-danger text-center">{{ msg }}</div> -->
+         <!-- seach form -->
+         <form  (ngSubmit)="searchByOrganization()" #search="ngForm" autocomplete="off">
+            <div class="row">
+               <div class="col-lg-8 col-md-9 col-sm-12">
+               <div class="checkbox">
+                  <!-- <label data-toggle="collapse" data-target="#parent1">
+                     <input type="checkbox"/>
+                  </label> -->
+                  <div class="caption">
+                    <span class="caption-subject font-green sbold uppercase"> Thông tin tìm kiếm </span>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-6 col-sm-12 form-horizontal">
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label text-left">Họ tên</label>
+                        <div class="col-sm-9">
+                           <input type="text" class="form-control form-filter input-sm" name="fullName"
+                           [(ngModel)]="searchParams.fullName" #fullName="ngModel" />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label text-left">Chức danh</label>
+                        <div class="col-sm-9">
+                           <input type="text" class="form-control form-filter input-sm" name="positionName"
+                           [(ngModel)]="searchParams.positionName" #positionName="ngModel" />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label text-left">Năm sinh</label>
+                        <div class="col-sm-9">
+                           <div class="row">
+                              <div class="col-sm-6">
+                                 <my-date-picker name="fromBirthday" [options]="configSetting.myDatePickerOptions" [locale]="'vi'" placeholder="Sau năm"
+                                 (dateChanged)="searchParams.fromBirthday = configSetting.changeDatetimeEvent($event)">
+                                 </my-date-picker>
+                              </div>
+                              <div class="col-sm-6">
+                                 <my-date-picker name="toBirthday" [options]="configSetting.myDatePickerOptions" [locale]="'vi'" placeholder="Trước năm"
+                                 (dateChanged)="searchParams.toBirthday = configSetting.changeDatetimeEvent($event)">
+                                 </my-date-picker>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+                  </div>
+                  <div class="col-lg-6 col-sm-12 form-horizontal">
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label text-left">Mã nhân viên</label>
+                        <div class="col-sm-9">
+                           <input type="text" class="form-control form-filter input-sm" name="employeeCode"
+                           [(ngModel)]="searchParams.employeeCode" #employeeCode="ngModel" />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label text-left">Email</label>
+                        <div class="col-sm-9">
+                           <input type="text" class="form-control form-filter input-sm" name="email" placeholder="Enter primary email or secondary email"
+                           [(ngModel)]="searchParams.email" #email="ngModel" />
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label text-left">Di động</label>
+                        <div class="col-sm-9">
+                           <input type="text" class="form-control form-filter input-sm" name="mobileNumber"
+                           [(ngModel)]="searchParams.mobileNumber" #mobileNumber="ngModel" />
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="actions margin-bottom-10">
+                  <button class="btn btn-sm yellow filter-submit margin-bottom" type="submit">
+                    <i class="fa fa-search"></i> Tìm kiếm</button>
+               </div>
+            </div>
+               <div class="col-lg-4 col-md-3 col-sm-12">
+               <!-- <div class="form-group">
+                  <div class="checkbox">
+                     <div class="caption">
+                       <span class="caption-subject font-green sbold uppercase"> Chọn đơn vị công tác </span>
+                     </div>
+                  </div>
+                  <div id="parent" class="collapse1 margin-left-5">
+                     <ng-template ngFor let-parent [ngForOf]="ListParent" let-i="index" [ngForTrackBy]="trackById">
+                        <div class="checkbox org-parent" style="padding: 0 0 0 20px">
+                           <input type="checkbox" class="level-one" value="{{parent.organizationId}}" name="{{parent._id}}"/>
+                           <label data-toggle="collapse" [attr.data-target]="'#' + parent._id">
+                              {{parent.name}}
+                           </label>
+                        </div>
+
+                        <div id="{{parent._id}}" class="collapse margin-left-5">
+                           <ng-template ngFor let-child [ngForOf]="parent.children" let-i="index" [ngForTrackBy]="trackById">
+                              <div class="checkbox org-child margin-left-10">
+                                 <input type="checkbox" class="level-two" value="{{parent.organizationId + '|'+ child.organizationId}}"/>
+                                 <label data-toggle="collapse" [attr.data-target]="'#' + child._id">
+                                    {{ child.name }}
+                                 </label>
+                              </div>
+                              <div id="{{child._id}}" class="collapse margin-left-5 ">
+                                 <ng-template ngFor let-childTwo [ngForOf]="child.children" let-i="index" [ngForTrackBy]="trackById">
+                                    <div class="checkbox">
+                                       <label data-toggle="collapse" [attr.data-target]="'#' + childTwo._id">
+                                          <input type="checkbox" class="level-three" value="{{child.organizationId + '|'+ childTwo.organizationId}}"/> {{ childTwo.name }}
+                                       </label>
+                                    </div>
+                                 </ng-template>
+                              </div>
+                           </ng-template>
+                        </div>
+                     </ng-template>
+                  </div>
+               </div> -->
+               <div class="form-group">
+                  <div class="checkbox">
+                     <div class="caption">
+                       <span class="caption-subject font-green sbold uppercase"> Chọn đơn vị công tác </span>
+                     </div>
+                  </div>
+                  <ul class="tree" id="tree-list-org">
+                     <ng-template ngFor let-parent [ngForOf]="ListParent" let-i="index" [ngForTrackBy]="trackById">
+                        <li class="li-list-org">
+                           <!-- <div class="checkbox" style="padding: 0 0 0 20px"> -->
+                              <input type="checkbox" class="level-one" value="{{parent.organizationId}}" name="{{parent._id}}"/>
+                              <label data-toggle="collapse" [attr.data-target]="'#' + parent._id">
+                                 <!-- <input type="checkbox" class="level-one" value="{{parent.organizationId}}" name="{{parent._id}}"/>  -->
+                                 {{parent.name}}
+                              </label>
+                           <!-- </div> -->
+
+                           <ul id="{{parent._id}}" class="collapse">
+                              <ng-template ngFor let-child [ngForOf]="parent.children" let-i="index" [ngForTrackBy]="trackById">
+                                 <li class="li-list-org">
+                                 <!-- <div class="checkbox org-child margin-left-10"> -->
+                                    <input type="checkbox" class="level-two" value="{{parent.organizationId + '|'+ child.organizationId}}"/>
+                                    <label data-toggle="collapse" [attr.data-target]="'#' + child._id">
+                                       <!-- <input type="checkbox" class="level-two" value="{{parent.organizationId + '|'+ child.organizationId}}"/> -->
+                                       {{ child.name }}
+                                       <!-- (change)="chooseLevelTwo(child.organizationId, parent.organizationId)" -->
+                                    </label>
+                                 <!-- </div> -->
+                                 <ul id="{{child._id}}" class="collapse">
+                                    <ng-template ngFor let-childTwo [ngForOf]="child.children" let-i="index" [ngForTrackBy]="trackById">
+                                       <li class="li-list-org">
+                                       <!-- <div class="checkbox"> -->
+                                          <label data-toggle="collapse" [attr.data-target]="'#' + childTwo._id">
+                                             <input type="checkbox" class="level-three" value="{{child.organizationId + '|'+ childTwo.organizationId}}"/> {{ childTwo.name }}
+                                          </label>
+                                       <!-- </div> -->
+                                       </li>
+                                    </ng-template>
+                                 </ul>
+                              </li>
+                              </ng-template>
+                           </ul>
+                        </li>
+                     </ng-template>
+                  </ul>
+               </div>
+
+            </div>
+            </div>
+
+         </form>
+        <div class="table-container">
+          <form  (ngSubmit)="searchByOrganization()" #searchForm="ngForm" autocomplete="off">
+            <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax">
+              <thead>
+                <tr role="row" class="heading">
+                  <th>
+                    STT
+                  </th>
+                  <th class="text-center">
+                    Mã NV
+                  </th>
+                  <th class="text-center time-column">
+                    Họ tên
+                  </th>
+                  <th class="time-column">
+                    Chức danh
+                  </th>
+                  <th class="" style="width: 20%">
+                     Đơn vị
+                  </th>
+                  <th class="text-center time-column">
+                    Ngày sinh
+                  </th>
+                  <th class="text-center">
+                    Di động
+                  </th>
+                  <th class="text-center email-column">
+                    Email
+                  </th>
+                  <th class="text-center" style="width: 30%">
+                    Second Email
+                  </th>
+                  <th class="text-center">
+                    Hành động
+                  </th>
+                </tr>
+                <!-- <tr role="row" class="filter">
+                   <td>
+                      STT
+                   </td>
+                  <td>
+                     employeeCode
+                    <div>
+                      <input type="text" class="form-control form-filter input-sm" name="employeeCode"
+                      [(ngModel)]="searchParams.employeeCode" #employeeCode="ngModel" />
+                    </div>
+                  </td>
+                  <td>
+                     fullname
+                     <div>
+                       <input type="text" class="form-control form-filter input-sm" name="fullName"
+                       [(ngModel)]="searchParams.fullName" #fullName="ngModel" />
+                     </div>
+                  </td>
+                  <td>
+                     postion name
+                     <div>
+                       <input type="text" class="form-control form-filter input-sm" name="positionName"
+                       [(ngModel)]="searchParams.positionName" #positionName="ngModel" />
+                     </div>
+
+                  </td>
+                  <td>
+                     organization
+                     <div>
+                       <input type="text" class="form-control form-filter input-sm" name="organizationName" [(ngModel)]="searchParams.organizationName" #organizationName="ngModel" />
+                     </div>
+
+                     Chi nhánh
+                     <select class="form-control form-filter input-sm margin-bottom-5" [(ngModel)]="parentId" (change)="selectParentOrg($event.target.value)" name="parentId" #parent="ngModel">
+                        <option value="-1">Chi nhánh</option>
+                        <option *ngFor="let parent of ListParent" [value]="parent.organizationId">{{parent.name}}</option>
+                     </select>
+
+                     Phòng ban
+                     <select class="form-control form-filter input-sm margin-bottom-5" [(ngModel)]="child_level_1" (change)="selectChild1Org($event.target.value)" name="child_level_1" #child1="ngModel">
+                        <option value="-1">Phòng ban</option>
+                        <option *ngFor="let child of ListChildLevel_1" [value]="child.organizationId">{{child.name}}</option>
+                     </select>
+
+                     Bộ phận
+                     <select class="form-control form-filter input-sm margin-bottom-5" [(ngModel)]="child_level_2" (change)="selectChild2Org($event.target.value)" name="child_level_2" #child2="ngModel">
+                        <option value="-1">Bộ phận</option>
+                        <option *ngFor="let child of ListChildLevel_2" [value]="child.organizationId">{{child.name}}</option>
+                     </select>
+                  </td>
+                  <td>
+                     birthday
+                     <div class="margin-bottom-5">
+                        <my-date-picker name="fromBirthday" [options]="configSetting.myDatePickerOptions" [locale]="'vi'" placeholder="From"
+                        (dateChanged)="searchParams.fromBirthday = configSetting.changeDatetimeEvent($event)" required>
+                        </my-date-picker>
+                     </div>
+                     <div class="margin-bottom-5">
+                        <my-date-picker name="toBirthday" [options]="configSetting.myDatePickerOptions" [locale]="'vi'" placeholder="To"
+                        (dateChanged)="searchParams.toBirthday = configSetting.changeDatetimeEvent($event)" required>
+                        </my-date-picker>
+
+                    </div>
+                  </td>
+                  <td class="text-center">
+                     Mobile
+                     <div>
+                       <input type="text" class="form-filter input-sm" name="mobileNumber"
+                       [(ngModel)]="searchParams.mobileNumber" #mobileNumber="ngModel" />
+                     </div>
+                  </td>
+                  <td class="text-center" colspan="2">
+                     email
+                     <div>
+                       <input type="text" class="form-control form-filter input-sm" name="email" placeholder="Enter primary email or secondary email"
+                       [(ngModel)]="searchParams.email" #email="ngModel" />
+                     </div>
+                  </td>
+                  <td>
+                     <div>
+                       <input type="text" class="form-control form-filter input-sm" name="secondEmail" [(ngModel)]="searchParams.secondEmail" #secondEmail="ngModel" />
+                     </div>
+                  </td>
+                  <td class="text-center">
+                    <div class="margin-bottom-5">
+                      <button class="btn btn-sm yellow filter-submit margin-bottom" type="submit">
+                        <i class="fa fa-search"></i> Search</button>
+                    </div>
+                  </td>
+                </tr> -->
+              </thead>
+              <tbody>
+                <tr *ngFor="let employee of ListEmployee | paginate: { itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalItems };let i = index; let last = last">
+                  <td>
+                    {{ pageSize * pageIndex + i + 1 - ( pageIndex > 0 ? pageSize : 0 ) }}
+                  </td>
+                  <td class="text-center">
+                     {{employee.employeeCode}}
+                  </td>
+                  <td class="">
+                     {{employee.fullName}}
+                  </td>
+                  <td class="">
+                     {{employee.positionName}}
+                  </td>
+                  <td class="">
+                     {{employee.organizationName}}
+                  </td>
+                  <td class="text-center">
+                     {{configSetting.convertIntergerToDate(employee.dateOfBirth)}}
+                  </td>
+                  <td class="text-center">
+                    {{employee.mobileNumber}}
+                  </td>
+                  <td class="text-center">
+                    {{employee.email}}
+                  </td>
+                  <td class="">
+                     <div class="margin-bottom-5" *ngFor="let email of employee.secondEmail">
+                        <span class="" *ngIf="employee.deactivate && !email.deactivate">
+                           <button type="button" name="button" class="btn btn-circle btn-outline red" (click)="deactivateEmail(employee._id, email._id)">
+                              Deactivate
+                           </button>
+                        </span>
+                        {{ email.email }}
+                     </div>
+                    <!-- {{employee.secondEmail | json }} -->
+                  </td>
+                  <td class="text-center">
+                    <a href="javascript:;" class="btn btn-circle btn-outline green margin-bottom-5" style="width: 100%" (click)="onShowAddSecondEmail(employee._id)">
+                      <i class="fa fa-pencil"></i> Add 2nd email </a>
+                     <a href="javascript:;" class="btn btn-circle btn-outline {{ employee.deactivate ? 'blue' : 'red' }}" style="width: 100%" (click)="deactivateAccount(employee._id, employee.deactivate)">
+                       <i class="fa fa-lock"></i> {{ employee.deactivate ? 'Activate' : 'Deactivate' }}</a>
+                    <!-- <button type="button" class="btn btn-circle btn-outline red fa fa-remove employee_remove_bs_confirmation" data-toggle="confirmation"
+                      attr.tmpid="{{employee._id}}">
+                      <span *ngIf="last">{{onRegisterConfirmation()}}</span>
+                      Remove
+                    </button> -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="pull-right">
+               <pagination-controls
+                     (pageChange)="pageIndex = $event"
+                     previousLabel="Lùi"
+                     nextLabel="Tiếp"
+                     maxSize="20"
+                     directionLinks="true"
+                     autoHide="true"
+               >
+               </pagination-controls>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- End: Demo Datatable 1 -->
+  </div>
+</div>
+<div class="popupDetail">
+  <app-vtp-employee-change #vtpEmployeeChange (reloadEmployeeEvent)="loadListEmployee()"></app-vtp-employee-change>
+</div>

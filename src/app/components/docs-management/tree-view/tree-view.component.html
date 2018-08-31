@@ -1,0 +1,65 @@
+<ul class="tree" id="tree-list-org">
+   <ng-template ngFor let-parent [ngForOf]="treeData" let-i="index">
+      <li class="li-list-org">
+            <input #parentCheckbox type="checkbox" class="level-one" value="{{parent.id}}"
+                   (change)="changeValue($event, parentCheckbox.checked, parent.id)"
+                   name="{{parent.id}}"/>
+            <label data-toggle="collapse"
+                   [attr.data-target]="'#' + parent.id">
+               {{parent.name}}
+            </label>
+
+         <ul id="{{parent.id}}" [class.collapse]="parent.childs.length">
+            <ng-template ngFor let-child [ngForOf]="parent.childs"
+                         let-i="index">
+               <li class="li-list-org">
+                  <input #checkbox type="checkbox" class="level-two"
+                         (change)="changeValue($event, checkbox.checked, child.id)"
+                         value="{{parent.id + '|'+ child.id}}"
+                         name="{{child.id}}"/>
+                  <label data-toggle="collapse"
+                         [attr.data-target]="'#' + child.id">
+                     {{ child.name }}
+                  </label>
+               <!-- </div> -->
+               <ul id="{{child.id}}" *ngIf="child.childs.length"
+                   [class.collapse]="child.childs.length">
+                  <ng-template ngFor let-childTwo [ngForOf]="child.childs"
+                               let-i="index">
+                     <li class="li-list-org">
+                       <input #secondCheckbox type="checkbox" class="level-three"
+                              (change)="changeValue($event, secondCheckbox.checked, childTwo.id)"
+                                  value="{{child.id + '|'+ childTwo.id}}"
+                                  name="{{childTwo.id}}"/>
+                        <label data-toggle="collapse" [attr.data-target]="'#' + childTwo.id">
+                            {{childTwo.name }}
+                        </label>
+                       <ul id="{{childTwo.id}}" *ngIf="childTwo.childs.length"
+                   [class.collapse]="childTwo.childs.length">
+                  <ng-template ngFor let-childThree [ngForOf]="childTwo.childs"
+                               let-i="index">
+                     <li class="li-list-org">
+
+                       <input #thirdCheckbox type="checkbox" class="level-three"
+                              (change)="changeValue($event, thirdCheckbox.checked, childThree.id)"
+                                  value="{{child.id + '|'+ childThree.id}}"
+                                  name="{{childThree.id}}"/>
+                        <label data-toggle="collapse"
+                               [attr.data-target]="'#' + childThree.id">
+                            {{
+                          childThree.name }}
+                        </label>
+                     <!-- </div> -->
+                     </li>
+                  </ng-template>
+               </ul>
+                     <!-- </div> -->
+                     </li>
+                  </ng-template>
+               </ul>
+            </li>
+            </ng-template>
+         </ul>
+      </li>
+   </ng-template>
+</ul>

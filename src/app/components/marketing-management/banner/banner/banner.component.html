@@ -1,0 +1,124 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light portlet-fit portlet-datatable">
+            <div class="portlet-title portlet-title-action ">
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-circle blue-steel btn-outline" (click)="onShowAddOrChangeForm('')">
+                        <i class="fa fa-plus"></i> Add new </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-container">
+                   <!-- <div class="text-danger text-center">{{msg}}</div> -->
+                    <form (ngSubmit)="searchBanner()" #searchForm="ngForm" autocomplete="off">
+                        <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax">
+                            <thead>
+                                <tr role="row" class="heading">
+                                    <th>
+                                       STT
+                                    </th>
+                                    <th>
+                                        Banner Id
+                                    </th>
+                                    <th>
+                                        BannerName
+                                    </th>
+                                    <th>
+                                        BackgroundCode
+                                    </th>
+                                    <th class="text-center">
+                                        Status
+                                    </th>
+                                    <th class="text-center">
+                                        Banner Items
+                                    </th>
+                                    <th class="text-center">
+                                        Actions
+                                    </th>
+                                </tr>
+                                <tr role="row" class="filter">
+                                    <td>
+                                       <!-- STT  -->
+                                    </td>
+                                    <td>
+                                       <!-- Banner ID -->
+                                        <div>
+                                            <input type="text" class="form-control form-filter input-sm" name="id" [(ngModel)]="searchParams.id" #id="ngModel" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input type="text" class="form-control form-filter input-sm" name="bannerName" [(ngModel)]="searchParams.bannerName" minlength="3"
+                                                maxlength="150" #bannerName="ngModel" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <select class="form-control form-filter input-sm" [(ngModel)]="searchParams.status" name="status" #status="ngModel">
+                                                <option *ngFor="let item of statuses" [ngValue]="item.value">{{item.text}}</option>
+                                            </select>
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="margin-bottom-5">
+                                            <button class="btn btn-sm yellow filter-submit margin-bottom" type="submit">
+                                                <i class="fa fa-search"></i> Search</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let banner of banners | paginate: { itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }; let i = index; let last = last ">
+                                    <td>
+                                       {{ pageSize * pageIndex + i + 1 - ( pageIndex > 0 ? pageSize : 0 ) }}
+                                    </td>
+                                    <td>
+                                       {{banner._id}}
+                                    </td>
+                                    <td>
+                                        {{banner.bannerName}}
+                                    </td>
+                                    <td>
+                                       <div [ngStyle]="{'background-color':banner.backgroundRGB}">
+                                          {{banner.backgroundRGB}}
+                                       </div>
+
+                                    </td>
+                                    <td class="text-center">
+                                        {{banner.status}}
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="javascript:;" [routerLink]="['/g/banner-item',banner._id]" class="btn btn-circle btn-outline green">
+                                            <i class="fa fa-edit"></i> Banner Item</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="javascript:;" class="btn btn-circle btn-outline green" (click)="onShowAddOrChangeForm(banner._id)">
+                                            <i class="fa fa-pencil"></i> Edit </a>
+                                        <button type="button" class="btn btn-circle btn-outline red fa fa-remove banner_remove_bs_confirmation" data-toggle="confirmation"
+                                            attr.tmpid="{{banner._id}}">
+                                            <span *ngIf="last">{{onRegisterConfirmation()}}</span>
+                                            Remove
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <div class="pull-right">
+                           <pagination-controls (pageChange)="pageIndex = $event"></pagination-controls>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="popupDetail">
+    <app-banner-add-or-change #bannerAddOrChange [bannerId]="currentBannerId" (reloadBannerEvent)="getBanners()"></app-banner-add-or-change>
+</div>

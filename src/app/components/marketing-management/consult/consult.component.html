@@ -1,0 +1,123 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- Begin: Demo Datatable 1 -->
+        <div class="portlet light portlet-fit portlet-datatable">
+            <!-- <div class="portlet-title portlet-title-action ">
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-circle blue-steel btn-outline" (click)="onShowAddOfferPrice('')">
+                        <i class="fa fa-plus"></i> Add new </a>
+                </div>
+            </div> -->
+        </div>
+        <div class="portlet-body">
+           <!-- <div class="text-center text-danger">{{ msg }}</div> -->
+           <div class="table-container">
+                <form (ngSubmit)="searchConsultService()" #searchForm="ngForm" autocomplete="off">
+                    <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax">
+                        <thead>
+                           <tr role="row" class="heading">
+                              <th>
+                                 STT
+                              </th>
+                              <th>
+                                 Fullname
+                              </th>
+                              <th>
+                                 Phone
+                              </th>
+                              <th>
+                                 Adress
+                              </th>
+                              <th>
+                                 Title
+                              </th>
+                              <th class="text-center">
+                                 Status
+                              </th>
+                              <th class="text-center">
+                                 Actions
+                              </th>
+                           </tr>
+                           <tr role="row" class="filter">
+                                <td>
+                                </td>
+                                <td>
+                                   <div>
+                                     <input type="text" class="form-control form-filter input-sm" name="name" [(ngModel)]="searchParams.fullName" #fullname="ngModel" />
+                                  </div>
+                                </td>
+                                <td>
+                                   <div>
+                                      <input type="text" class="form-control form-filter input-sm" name="phone" [(ngModel)]="searchParams.phone" #phone="ngModel" />
+                                   </div>
+                                </td>
+                                 <td>
+                                    <div>
+                                       <input type="text" class="form-control form-filter input-sm" name="address" [(ngModel)]="searchParams.address" #address="ngModel" />
+                                   </div>
+                                 </td>
+                                <td>
+                                   <div>
+                                      <input type="text" class="form-control form-filter input-sm" name="title" [(ngModel)]="searchParams.title" #title="ngModel" />
+                                   </div>
+                                </td>
+                                <td>
+                                   <div>
+                                      <select class="form-control form-filter input-sm" [(ngModel)]="searchParams.status" name="status" #status="ngModel">
+                                          <option *ngFor="let item of statuses" [ngValue]="item.value">{{item.text}}</option>
+                                      </select>
+                                   </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="margin-bottom-5">
+                                        <button class="btn btn-sm yellow filter-submit margin-bottom" type="submit">
+                                            <i class="fa fa-search"></i> Search</button>
+                                    </div>
+                                </td>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <!-- <tr *ngFor="let service of ListService | paginate: { itemsPerPage: searchParams.pageSize, currentPage: searchParams.pageIndex, totalItems: totalRow };let last = last "> -->
+                           <!-- <ng-template ngFor let-radio let-i="index" let-last="last" [ngForOf]="ListRadio | paginate: { itemsPerPage: pageSize, currentPage: pageIndex }"> -->
+                              <tr *ngFor="let consult of ListConsultService | paginate: { itemsPerPage: pageSize, currentPage: pageIndex }; let i = index; let last = last">
+
+                                 <td>
+                                     {{ pageSize * pageIndex + i + 1 - ( pageIndex > 0 ? pageSize : 0 ) }}
+                                     <!-- {{ indexNumber + i + 1}} -->
+                                 </td>
+                                 <td>
+                                     {{consult.fullName}}
+                                 </td>
+                                <td>
+                                    {{consult.phone}}
+                                </td>
+                                <td>
+                                    {{consult.address}}
+                                </td>
+                                <td>
+                                    {{consult.title}}
+                                </td>
+                                <td class="text-center">
+                                    {{consult.status}}
+                                </td>
+                                <td class="text-center">
+                                    <a href="javascript:;" class="btn btn-circle btn-outline green" (click)="onShowUpdateConsultService(consult._id)">
+                                        <i class="fa fa-pencil"></i> Add Note </a>
+
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pull-right">
+                       <pagination-controls (pageChange)="pageIndex = $event"></pagination-controls>
+                    </div>
+                </form>
+           </div>
+        </div>
+        <!-- End: Demo Datatable 1 -->
+    </div>
+</div>
+<div class="popupDetail">
+    <app-consult-update #consultUpdate (reloadConsultServiceEvent)="loadListConsultService()"></app-consult-update>
+</div>
