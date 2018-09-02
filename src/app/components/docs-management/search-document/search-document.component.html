@@ -96,6 +96,61 @@
                         </div>
                     </div>
                 <!--</form>-->
+                                      <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax">
+                            <thead>
+                                <tr role="row" class="heading">
+                                    <th class="text-center">
+                                      STT
+                                    </th>
+                                    <th>
+                                       Tiêu đề
+                                    </th>
+                                    <th class="text-center">
+                                        Ngày ban hành
+                                    </th>
+                                    <th class="text-center">
+                                        Ngày hết hiệu lưc
+                                    </th>
+                                    <th class="text-center">
+                                        Thay cho văn bản
+                                    </th>
+                                    <th>
+                                        Tải về
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                  *ngFor="let doc of listDocs | paginate: { itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }; let i = index; let last = last ">
+                                    <td>
+                                       {{ pageSize * pageIndex + i + 1 - ( pageIndex > 0 ? pageSize : 0 ) }}
+                                    </td>
+                                    <td>
+                                       {{doc.title}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{doc.issuedDate | date: 'dd/MM/yyyy'}}
+                                    </td>
+                                    <td class="text-center">
+                                       {{doc.expiredDate | date: 'dd/MM/yyyy'}}
+
+                                    </td>
+                                    <td class="text-center">
+                                        {{doc.replacedFor}}
+                                    </td>
+                                    <td>
+                                        <a [href]="getDownloadFileURL(doc.pathFile)" download>{{doc.pathFile}}</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <div class="text-center" style="font-size: 20px;" *ngIf="!listDocs.length">
+                          <i class="fa fa-search"></i> Không tìm thấy kết quả phù hợp
+                        </div>
+                        <div class="pull-right">
+                           <pagination-controls (pageChange)="pageIndex = $event"></pagination-controls>
+                        </div>
             </div>
         </div>
     <!-- End: Demo Datatable 1 -->

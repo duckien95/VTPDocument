@@ -14,7 +14,7 @@ export class DocumentService {
     }
 
     getTitleSuggest(partial){
-        return this.httpClient.getJsonObservable('/api/suggest/' + partial);
+        return this.httpClient.getJsonObservable('/api/document/' + partial);
     }
 
     getAllTags(){
@@ -33,7 +33,7 @@ export class DocumentService {
         return this.httpClient.postJsonObservable('/api/createDoc', obj);
     }
     searchDocs(obj){
-      return this.httpClient.postJsonObservable('  /api/search', obj);
+      return this.httpClient.postJsonObservable('/api/search', obj);
     }
 
     uploadFile(file){

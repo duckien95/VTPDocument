@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <!--<form #createDocsForm="ngForm">-->
+                <!--<form #createDocsForm="ngForm" autocomplete="off">-->
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="checkbox">
@@ -27,7 +27,7 @@
                                         <div class="col-sm-9">
                                           <app-suggest-title
                                             [title]="titleContent"
-                                            [(ngModel)]="documentInsertModel.title"
+                                            [(ngModel)]="title"
                                             [ngModelOptions]="{standalone: true}">
                                           </app-suggest-title>
                                         </div>
@@ -38,7 +38,7 @@
                                         <div class="col-sm-9">
                                             <app-suggest-tag
                                               [data]="listTags"
-                                              [(ngModel)]="documentInsertModel.tags"
+                                              [(ngModel)]="listTagsModel"
                                               [ngModelOptions]="{standalone: true}">
                                             </app-suggest-tag>
                                         </div>
@@ -47,24 +47,28 @@
                                         <label class="col-sm-3 control-label text-left">Tóm tắt nội dung</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control form-filter input-sm"
+                                                   placeholder="Tóm tắt nội dung"
                                                    name="summary" [(ngModel)]="documentInsertModel.summary"
                                                    required/>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label text-left">Ngày ban hành</label>
+                                        <label class="col-sm-3 control-label text-left">Ngày ban hành </label>
                                         <div class="col-sm-9">
                                               <my-date-picker name="fromBirthday"
-                                                              [options]="configSetting.myDatePickerOptions" class="date-input" [locale]="'vi'" placeholder="Sau năm"
+                                                              [options]="configSetting.myDatePickerOptions"
+                                                              class="date-input" [locale]="'vi'"
+                                                              placeholder="Từ ngày"
                                               (dateChanged)="documentInsertModel.issuedDate = configSetting.changeDatetimeEvent($event)">
                                               </my-date-picker>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label text-left">Ngày ban hành</label>
+                                        <label class="col-sm-3 control-label text-left">Ngày hết hiệu lực</label>
                                         <div class="col-sm-9">
                                               <my-date-picker name="toBirthday"
-                                                              [options]="configSetting.myDatePickerOptions" class="date-input" [locale]="'vi'" placeholder="Trước năm"
+                                                              [options]="configSetting.myDatePickerOptions"
+                                                              class="date-input" [locale]="'vi'" placeholder="Đến ngày"
                                               (dateChanged)="documentInsertModel.expiredDate = configSetting.changeDatetimeEvent($event)">
                                               </my-date-picker>
                                         </div>
@@ -88,7 +92,7 @@
                                         <div class="col-sm-9">
                                           <app-suggest-title
                                             [title]="replaceForContent"
-                                            [(ngModel)]="documentInsertModel.replacedFor"
+                                            [(ngModel)]="replacedFor"
                                             [ngModelOptions]="{standalone: true}">
                                           </app-suggest-title>
                                         </div>

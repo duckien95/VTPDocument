@@ -45,6 +45,11 @@ export class SearchDocumentComponent implements OnChanges {
     isOpen: boolean = true;
     configSetting = ConfigSetting;
     replaceForContent: string = "Nhập văn bản thay thế";
+
+    pageSize: number =  24;
+    pageIndex: number = 1;
+    listDocs: any[] = [];
+
     ListTags: any = [
         { text: "111", value: 111 },
         { text: "112", value: 112 },
@@ -66,14 +71,17 @@ export class SearchDocumentComponent implements OnChanges {
 
     searchDocument(){
       console.log(this.searchParams);
+      this.listDocs = [];
       this.documentService.searchDocs(this.searchParams).subscribe( response => {
 
-        if(response){
-
-        } else {
-
+        if(response.length){
+             this.listDocs = response;
         }
       })
+    }
+
+    getDownloadFileURL(pathFile){
+      return 'http://125.212.238.119:8889/downloadFile/' + pathFile;
     }
 
     addTags(e){

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import { CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { DocumentService } from '../../../services/document-management/document.service';
 import { DocumentInsertModel } from '../../../models/document-management/insert-model';
 import { ConfigSetting } from '../../../common/configSetting';
@@ -14,8 +15,11 @@ declare var jQuery: any;
 export class InsertDocumentComponent implements OnInit {
 
   constructor(
-    private documentService: DocumentService
+    private documentService: DocumentService,
+    private router: Router
   ) { }
+
+  // @ViewChild('createDocsForm') createDocsForm: any;
 
   documentInsertModel: DocumentInsertModel;
   configSetting = ConfigSetting;
@@ -23,7 +27,11 @@ export class InsertDocumentComponent implements OnInit {
   treeData: any[] = [];
   formValid: boolean;
   titleContent: string = "Nhập tiêu đề";
-  replaceForContent: string = "Nhập văn bản thay thế";
+  replaceForContent: string = "Nhập tên văn bản thay thế";
+
+  listTagsModel: any[] = [];
+  title: any[] = [];
+  replacedFor: any[] = [];
 
   ngOnInit() {
     this.documentInsertModel = new DocumentInsertModel();
@@ -39,21 +47,6 @@ export class InsertDocumentComponent implements OnInit {
             });
       }
     })
-    this.listTags = [{
-value: 1,
-text: "thưởng tết",
-updatedAt: "2018-08-20T08:22:03.911+0000"
-},
-{
-value: 2,
-text: "nghỉ lễ",
-updatedAt: "2018-08-20T08:22:17.038+0000"
-},
-{
-value: 3,
-text: "lương kinh doanh",
-updatedAt: "2018-08-20T08:22:25.670+0000"
-}]
 
     this.documentService.getTreeData().subscribe( response => {
         if (response){
@@ -82,34 +75,76 @@ updatedAt: "2018-08-20T08:22:25.670+0000"
 
   createDocs(){
     console.log('create docs', this.documentInsertModel);
-     if (this.formValid && this.documentInsertModel.pathFile){
+    if(!this.title.length){
+      ConfigSetting.ShowError('Chưa nhập tiêu đề');
+      return;
+    }
+    if(!this.replacedFor.length){
+      ConfigSetting.ShowError('Chưa nhập văn bản thay thế');
+      return;
+    }
+
+     if(!this.documentInsertModel.groupId){
+       ConfigSetting.ShowError('Chưa chọn nhóm văn bản');
+        return;
+     }
+     if(!this.listTagsModel.length){
+       ConfigSetting.ShowError('Chưa chọn thẻ');
+        return;
+     }
+
+     if(!this.documentInsertModel.issuedDate){
+       ConfigSetting.ShowError('Chưa chọn ngày ban hành');
+        return;
+     }
+
+     if(!this.documentInsertModel.expiredDate){
+       ConfigSetting.ShowError('Chưa chọn ngày hết hiệu lực');
+        return;
+     }
+
+     if(!this.documentInsertModel.summary){
+       ConfigSetting.ShowError('Chưa nhập nội dung tóm tắt');
+        return;
+     }
+     if (!this.documentInsertModel.pathFile) {
+       ConfigSetting.ShowError('Chưa tải văn bản lên');
+        return;
+     } else  {
           this.documentInsertModel.insertedAt =  new Date();
           this.documentInsertModel.updatedAt = new Date();
           this.documentInsertModel.insertBy = "kien";
           this.documentInsertModel.updateBy = "kien";
           this.documentInsertModel.viewTimes = 0;
           this.documentInsertModel.status = 1;
-          this.documentInsertModel.groupId = 1;
+          this.documentInsertModel.title = this.title[0].text;
+          this.documentInsertModel.replacedFor = this.replacedFor[0].value;
           // this.documentInsertModel.title = this.documentInsertModel.title.text;
           // this.documentInsertModel.replacedFor = this.documentInsertModel.replacedFor.text;
           let tags =  {};
-          this.documentInsertModel.tags.map( item => {
+          this.listTagsModel.map( item => {
             tags[item.value] = {
               'tagId': item.value,
               'tagName': item.text
             } ;
           })
-       this.documentInsertModel.tags = null;
+          this.documentInsertModel.tags = null;
 
 
          this.documentService.createDocs({ 'documents': this.documentInsertModel, 'tags': tags }).subscribe( response => {
            console.log('response ', response);
-           if (response) {
+           if (response.errorMessage) {
+             ConfigSetting.ShowError(response.errorMessage);
 
+           } else {
+              ConfigSetting.ShowSuccess('Thêm văn bản thành công');
+              this.documentInsertModel = new DocumentInsertModel();
+              this.listTagsModel = [];
+              this.title = [];
+              this.replacedFor = [];
            }
          });
      }
-     else ConfigSetting.ShowError('Tạo văn bản không thành công');
   }
 
   addTags(e){

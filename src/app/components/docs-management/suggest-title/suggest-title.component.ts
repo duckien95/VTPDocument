@@ -118,6 +118,7 @@ export class SuggestTitleComponent implements AfterViewInit, OnChanges {
 
     searchTitle(e?) {
       this.isOpen = true;
+
         console.log('search', e);
         if (e && [38, 40, 13].indexOf(e.keyCode) !== -1) {
           return true;
@@ -130,9 +131,12 @@ export class SuggestTitleComponent implements AfterViewInit, OnChanges {
               this.ShowData = response.map( item => {
                 // console.log(item)
                 return {
-                  'text': item
+                  'text': item.title,
+                  'value': item.id
                 }
               });
+            } else {
+              this.ShowData = [];
             }
           })
         })
@@ -176,19 +180,33 @@ export class SuggestTitleComponent implements AfterViewInit, OnChanges {
         }
     };
 
+    keyDownTitle(event){
+      if(event.keyCode === 13 && !this.ShowData.length && this.title === 'Nhập tiêu đề' && this.str.trim().length){
+          this.value = [{
+            text: this.str.trim()
+          }];
+                      this.str = '';
+            // this.searchTitle();
+            this.titleQueryInput.nativeElement.focus();
+            $('.titleQueryInput').off('click');
+      }
+    }
+
     changeTitle(event, item) {
       console.log('item = ', item);
-        // event.stopPropagation();
-        event.preventDefault()
+        event.stopPropagation();
+        event.preventDefault();
         if(item !== undefined){
-            this.value = item.text;
+            this.value = [item];
+            this.isOpen = false;
+            this.ShowData = [];
+            // this.onSelect.emit(item);
+            this.str = '';
+            // this.searchTitle();
+            this.titleQueryInput.nativeElement.focus();
+            $('.titleQueryInput').off('click');
         }
-        this.isOpen = false;
-        this.ShowData = [];
-        // this.onSelect.emit(item);
-        this.str = '';
-        // this.searchTitle();
-        this.titleQueryInput.nativeElement.focus();
+
     }
 
     removeTitle(event, item) {

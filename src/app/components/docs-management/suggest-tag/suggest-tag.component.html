@@ -22,7 +22,7 @@
             <ng-template ngFor let-item [ngForOf]="ShowData" let-i="index">
                 <div>
                     <div class="listTagsItem" [class.tagitem-focus]="keyFocus === i*1"
-                         (click)="$event.stopPropagation(); changeValue(item)">
+                         (click)="$event.stopPropagation(); changeValue($event, item)">
                         {{item.text}}
                     </div>
                 </div>

@@ -31,11 +31,11 @@ export class SuggestTagComponent implements AfterViewInit, OnChanges {
     private onChangeCallback: (_: any) => void = noop;
     private onFocusCallback: (_: any) => void = noop;
 
-    @Input('options') options;
+    // @Input('options') options;
     @Input('data') data;
     isOpen: boolean;
     listData: any[] = [];
-    @Input('defaultSelect') defaultSelect: any[] = [];
+    // @Input('defaultSelect') defaultSelect: any[] = [];
 
     @ViewChild('mySelectTag') mySelectTag;
     @ViewChild('tagQueryInput') tagQueryInput;
@@ -138,9 +138,9 @@ export class SuggestTagComponent implements AfterViewInit, OnChanges {
              // this.tagQueryInput.nativeElement.focus();
               this.isOpen = false;
             // console.log('change status ok', this);
-            // $(document).off('click', this.eventClick);
+            $(document).off('click', this.eventClick);
             // $(document).off('click', e.target);
-            // $(document).off('keydown', this.eventFocus);
+            $(document).off('keydown', this.eventFocus);
         }
     }
 
@@ -158,17 +158,19 @@ export class SuggestTagComponent implements AfterViewInit, OnChanges {
                 this.keyFocus = 0;
             }
         } else if (e.keyCode === 13 && this.keyFocus !== -1) {
-            e.stopPropagation();
+            // e.stopPropagation();
             e.preventDefault();
-            this.changeValue(this.ShowData[this.keyFocus]);
+            this.changeValue(e, this.ShowData[this.keyFocus]);
         }
     };
 
-    changeValue(item) {
-
+    changeValue(e, item) {
+          e.preventDefault();
         let index = this.value.indexOf(item);
         if (index === -1) {
-            this.value = [item, ...this.value];
+          console.log(item);
+            this.value = [ ...this.value, item];
+            console.log(this.value);
         }
         // this.isOpen = false;
         this.str = '';
